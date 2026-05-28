@@ -344,3 +344,7 @@
 ### 15:11 — `malgn-helper-pms` → Cloudflare Pages
 - 커밋: `b161474` (신규 커밋: yes)
 - 메시지: feat: Q&A 평가 카드 임베드 가이드 추가 (URL/window.open/iframe)
+
+### 15:22 — `malgn-helper-pms` → Cloudflare Pages
+- 커밋: `fbce0cb` (신규 커밋: yes)
+- 메시지: feat: 브리핑 워크플로 페이지 (빈 상태 + AI 생성 + 히스토리 셀렉트)
