@@ -153,6 +153,12 @@
 
 `scripts/deploy.sh`가 4건 모두 자동 처리 (commit-skip 또는 fix 커밋 → push → build·deploy → 이력 append).
 
+### 11. 브리핑 카드 예시 저장
+
+- [doc/examples/현대엔지비.md](../examples/현대엔지비.md) 신규 — `# 현대엔지비 LMS` 프로젝트 브리핑 카드 예시
+- 같은 폴더의 [안전보건진흥원.md](../examples/안전보건진흥원.md)는 풀 평가(케이스 스터디), 본 파일은 [customer-briefing.md](../prompts/customer-briefing.md) 프롬프트로 만든 짧은 카드 — 두 양식 비교 가능
+- 안전보건진흥원과의 비교표 포함 → 양극단 케이스 한눈에 확인 가능
+
 ## 배포
 
 ### 11:39 — `malgn-helper-api` → Cloudflare Workers
