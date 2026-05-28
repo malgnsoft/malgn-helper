@@ -380,3 +380,7 @@
 ### 16:13 — `malgn-helper-pms` → Cloudflare Pages
 - 커밋: `6b0707a` (신규 커밋: yes)
 - 메시지: fix: Q&A 평균 점수를 5-스타 시각 표시로 변경 (각 축 카드와 일관성)
+
+### 16:16 — `malgn-helper-pms` → Cloudflare Pages
+- 커밋: `ed7713d` (신규 커밋: yes)
+- 메시지: fix: 평균 별점 표시 amber 토큰 + UTooltip 제거 (v3 컬러 호환)
