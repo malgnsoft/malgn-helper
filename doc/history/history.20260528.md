@@ -360,3 +360,7 @@
 ### 15:40 — `malgn-helper-pms` → Cloudflare Pages
 - 커밋: `9c3b83f` (신규 커밋: yes)
 - 메시지: fix: 주의 배지에 ring 테두리 추가 (시안 ring-amber-200 적용)
+
+### 15:56 — `malgn-helper-pms` → Cloudflare Pages
+- 커밋: `46bc320` (신규 커밋: yes)
+- 메시지: feat: Q&A 카드에 표준답변 다중 + '표준 질문·답변으로 저장하기' 버튼
