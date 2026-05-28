@@ -276,3 +276,7 @@
 ### 13:09 — `malgn-helper-pms` → Cloudflare Pages
 - 커밋: `7f4cab9` (신규 커밋: yes)
 - 메시지: fix: Tailwind v4 @source 지시자 추가로 컴포넌트 클래스 스캔 활성화
+
+### 13:48 — `malgn-helper-pms` → Cloudflare Pages
+- 커밋: `2baa795` (신규 커밋: yes)
+- 메시지: refactor: 상세 페이지를 브리핑 모달 단독 표시로 단순화
