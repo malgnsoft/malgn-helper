@@ -340,3 +340,7 @@
 ### 15:03 — `malgn-helper-pms` → Cloudflare Pages
 - 커밋: `4c98af3` (신규 커밋: yes)
 - 메시지: feat: Q&A 평가 카드 통합 (post 94227 데모) + /posts/[id]/eval 모달 페이지
+
+### 15:11 — `malgn-helper-pms` → Cloudflare Pages
+- 커밋: `b161474` (신규 커밋: yes)
+- 메시지: feat: Q&A 평가 카드 임베드 가이드 추가 (URL/window.open/iframe)
