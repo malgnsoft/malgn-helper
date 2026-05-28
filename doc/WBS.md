@@ -40,7 +40,7 @@
 | ID | 작업 | 산출물 | 담당 | 공수 |
 | --- | --- | --- | --- | --- |
 | 2-1 | 전체 진행 일정 (WBS) | 본 문서 + Phase 1 일정표 | | |
-| 2-2 | 시스템 아키텍처 설계 | Phase 1 아키텍처 다이어그램, 컴포넌트 명세 ([tech-stack.md](tech-stack.md) 기반) | | |
+| 2-2 | 시스템 아키텍처 설계 | Phase 1 아키텍처 다이어그램, 컴포넌트 명세 ([TECH-STACK.md](TECH-STACK.md) 기반) | | |
 | 2-3 | 화면명세서 작성 | 관리자 화면 명세 + IA (자료/표준답변/문의/추천답변/통계) | | |
 | 2-4 | 데이터 설계 | ERD(users·documents·chunks·standard_answers·inquiries·ai_suggestions·agent_responses), OpenSearch 인덱스 매핑, R2 키 규칙 | | |
 | 2-5 | 디자인 시안 | 관리자 디자인 시안 | | |

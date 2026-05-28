@@ -35,7 +35,7 @@
 
 ## [출처 데이터 모델]
 
-`pms` DB의 `tb_post`(게시글) + `tb_post_comment`(댓글) + `tb_post_file`(첨부) + `tb_project`(고객사) + `tb_site`(사이트) + `tb_user`(사용자). 자세한 스키마·정제 정책은 [`doc/legacy-db-inventory.md`](../legacy-db-inventory.md) 참조.
+`pms` DB의 `tb_post`(게시글) + `tb_post_comment`(댓글) + `tb_post_file`(첨부) + `tb_project`(고객사) + `tb_site`(사이트) + `tb_user`(사용자). 자세한 스키마·정제 정책은 [`doc/LEGACY-DB-INVENTORY.md`](../LEGACY-DB-INVENTORY.md) 참조.
 
 기본 Q&A 후보 필터:
 
@@ -278,7 +278,7 @@ D11 결과 + 정성 분석. 정책 거절·미지원·개발 불가 답변에서
 - **판정 기호**: ✓ 양호 · ⚠ 주의 · ✕ 문제 · ㅡ 정보 부족
 - **추측 금지**: 데이터로 측정·관찰되지 않은 항목은 반드시 `ㅡ`로 표기.
 - **분류 기준 명시**: §1 메타에 "분류 규칙: 이메일 도메인 `@malgnsoft.com` 기준" 한 줄 포함.
-- **Cross-link**: 결과 문서 하단에 [`legacy-db-inventory.md`](../legacy-db-inventory.md), [`project-inquiry-analysis.md`](../project-inquiry-analysis.md), [`roadmap.md`](../roadmap.md) 링크.
+- **Cross-link**: 결과 문서 하단에 [`LEGACY-DB-INVENTORY.md`](../LEGACY-DB-INVENTORY.md), [`PROJECT-INQUIRY-ANALYSIS.md`](../PROJECT-INQUIRY-ANALYSIS.md), [`ROADMAP.md`](../ROADMAP.md) 링크.
 - **저장 경로**: `doc/examples/{{PROJECT_NAME}}.md`. (`*` 같은 접두 기호는 안전한 파일명으로 치환 가능)
 - **추출 쿼리 섹션은 포함하지 않음** — 본 프롬프트의 [필수 데이터 수집 쿼리] 절을 재사용.
 
@@ -297,6 +297,6 @@ D11 결과 + 정성 분석. 정책 거절·미지원·개발 불가 답변에서
 # § 참고
 
 - 예시 산출물: [`doc/examples/안전보건진흥원.md`](../examples/안전보건진흥원.md) — 본 프롬프트로 만들 결과의 모범 형태
-- DB 정책·정제 룰: [`doc/legacy-db-inventory.md`](../legacy-db-inventory.md)
-- 전체 업체 분포·필터 룰: [`doc/project-inquiry-analysis.md`](../project-inquiry-analysis.md)
+- DB 정책·정제 룰: [`doc/LEGACY-DB-INVENTORY.md`](../LEGACY-DB-INVENTORY.md)
+- 전체 업체 분포·필터 룰: [`doc/PROJECT-INQUIRY-ANALYSIS.md`](../PROJECT-INQUIRY-ANALYSIS.md)
 - 분류 규칙 메모리 근거: 사용자 정책 (`@malgnsoft.com` → 직원)

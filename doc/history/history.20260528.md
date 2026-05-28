@@ -85,11 +85,11 @@
 ## 다음 단계 후보
 
 - [ ] 첫 Workers/Pages 배포 시도 — `./scripts/deploy.sh <repo> "<msg>"`
-- [ ] [wbs.md](../wbs.md) **P1-1.4 Aurora MySQL + Hyperdrive 바인딩** — Aurora 프로비저닝 후 `wrangler.jsonc`에 `HYPERDRIVE` 바인딩 추가
+- [ ] [WBS.md](../WBS.md) **P1-1.4 Aurora MySQL + Hyperdrive 바인딩** — Aurora 프로비저닝 후 `wrangler.jsonc`에 `HYPERDRIVE` 바인딩 추가
 - [ ] **P1-1.6 R2 버킷 생성** — `wrangler r2 bucket create malgn-helper-files` + 바인딩
 - [ ] **P1-1.7 OpenSearch 도메인 프로비저닝**
 - [ ] **P1-1.8 AI Gateway 설정** + Anthropic API 키 secret 등록 (`wrangler secret put ANTHROPIC_API_KEY`)
-- [ ] [doc/roadmap.md](../roadmap.md) **Phase 1 M1** 인프라 Ready 게이트 점검
+- [ ] [doc/ROADMAP.md](../ROADMAP.md) **Phase 1 M1** 인프라 Ready 게이트 점검
 
 ---
 

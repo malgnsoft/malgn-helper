@@ -14,11 +14,11 @@ NotebookLM 수준의 사내 솔루션 전문 고객상담 AI 챗봇 — **사용
 ## 핵심 문서
 
 - [CLAUDE.md](CLAUDE.md) — 시스템 개요·인프라·작업 규칙
-- [doc/tech-stack.md](doc/tech-stack.md) — 기술 스택 정의
-- [doc/roadmap.md](doc/roadmap.md) — Phase 1·Phase 2 로드맵
-- [doc/wbs.md](doc/wbs.md) — 작업 분해 (WBS)
-- [doc/legacy-db-inventory.md](doc/legacy-db-inventory.md) — 레거시 PMS DB 인벤토리
-- [doc/project-inquiry-analysis.md](doc/project-inquiry-analysis.md) — 업체별 문의 분석
+- [doc/TECH-STACK.md](doc/TECH-STACK.md) — 기술 스택 정의
+- [doc/ROADMAP.md](doc/ROADMAP.md) — Phase 1·Phase 2 로드맵
+- [doc/WBS.md](doc/WBS.md) — 작업 분해 (WBS)
+- [doc/LEGACY-DB-INVENTORY.md](doc/LEGACY-DB-INVENTORY.md) — 레거시 PMS DB 인벤토리
+- [doc/PROJECT-INQUIRY-ANALYSIS.md](doc/PROJECT-INQUIRY-ANALYSIS.md) — 업체별 문의 분석
 - [doc/examples/](doc/examples/) — 업체별 케이스 스터디
 - [doc/prompts/](doc/prompts/) — 재사용 평가·브리핑 프롬프트
 

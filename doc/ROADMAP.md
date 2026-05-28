@@ -37,7 +37,7 @@
 | 항목 | 상태 |
 | --- | --- |
 | 단계 | **기획·설계 문서 작성** (개발 착수 전) |
-| 산출물 | [CLAUDE.md](../CLAUDE.md), [tech-stack.md](tech-stack.md), [wbs.md](wbs.md), 본 로드맵 |
+| 산출물 | [CLAUDE.md](../CLAUDE.md), [TECH-STACK.md](TECH-STACK.md), [WBS.md](WBS.md), 본 로드맵 |
 | 코드 | `malgn-helper` / `-admin` / `-api` 디렉토리 비어 있음 |
 | 다음 액션 | 미결 결정(§9) 확정 → Phase 1 인프라(1.1) 착수 |
 
@@ -311,7 +311,7 @@ Phase 1에서 검증된 자료·표준 답변·답변 정책을 그대로 활용
 
 - **단계 게이트**: 각 마일스톤은 완료 기준 충족 시에만 다음 단계로. 특히 M4→M5는 자산 축적 검증 필수.
 - **품질 리뷰**: 주기적 답변 샘플링 리뷰(인용 정확도·잘못된 안내)로 KPI 추적.
-- **문서 동기화**: 범위/아키텍처 변경 시 [CLAUDE.md](../CLAUDE.md)·[tech-stack.md](tech-stack.md)·[wbs.md](wbs.md)와 본 문서 동시 갱신.
+- **문서 동기화**: 범위/아키텍처 변경 시 [CLAUDE.md](../CLAUDE.md)·[TECH-STACK.md](TECH-STACK.md)·[WBS.md](WBS.md)와 본 문서 동시 갱신.
 
 ---
 

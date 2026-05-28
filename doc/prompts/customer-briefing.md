@@ -216,6 +216,6 @@ SELECT ROUND(AVG(frt)/60, 1) avg_hours FROM (
 # § 참고
 
 - 장문 평가 프롬프트: [`cs-evaluation.md`](cs-evaluation.md)
-- DB 정책: [`legacy-db-inventory.md`](../legacy-db-inventory.md)
+- DB 정책: [`LEGACY-DB-INVENTORY.md`](../LEGACY-DB-INVENTORY.md)
 - 분류 규칙(메모리): `@malgnsoft.com` → 직원
-- 로드맵 위치: [`roadmap.md`](../roadmap.md) **Phase 1 · 1.8 AI 추천 답변** — 본 브리핑은 추천 답변의 진입 컨텍스트로도 사용
+- 로드맵 위치: [`ROADMAP.md`](../ROADMAP.md) **Phase 1 · 1.8 AI 추천 답변** — 본 브리핑은 추천 답변의 진입 컨텍스트로도 사용

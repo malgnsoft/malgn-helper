@@ -2,7 +2,7 @@
 
 > 조사일: 2026-05-18
 > 대상: `pms.tb_post` Q&A 후보 1,358건 (status=1, 댓글≥1, 비-Task/일정/투표/공지, 테스트 제외, 본문≥20자)
-> 출처 메타: [legacy-db-inventory.md](legacy-db-inventory.md)
+> 출처 메타: [LEGACY-DB-INVENTORY.md](LEGACY-DB-INVENTORY.md)
 
 ---
 
@@ -115,7 +115,7 @@
 ### *안전보건진흥원 (48건)
 - HRD 공공기관 콘텐츠 운영.
 - MP4 진도제어 불가, 회원탈퇴 시 교육 데이터 삭제 정책, 온라인 컨텐츠 반영 방법.
-- **일부 답변이 비공개에만 존재** (예: post 94221) — [legacy-db-inventory.md](legacy-db-inventory.md) §6 비공개 댓글 처리 전략 참조.
+- **일부 답변이 비공개에만 존재** (예: post 94221) — [LEGACY-DB-INVENTORY.md](LEGACY-DB-INVENTORY.md) §6 비공개 댓글 처리 전략 참조.
 
 ### *구)유니윌 현)아이티윌 (26건)
 - **결제·API 통합 이슈** 빈출.
@@ -166,6 +166,6 @@
 
 ## Cross-link
 
-- 인덱스 메타 필드(`project_id`/`project_name`/`site_id`)·가시성 정책: [legacy-db-inventory.md](legacy-db-inventory.md) §7
-- 표준 답변 후보 자동 추출 흐름: [roadmap.md](roadmap.md) **1.9 피드백 루프**
-- WBS 1-4 기본자료 검토 입력 자료: [wbs.md](wbs.md) Phase 1
+- 인덱스 메타 필드(`project_id`/`project_name`/`site_id`)·가시성 정책: [LEGACY-DB-INVENTORY.md](LEGACY-DB-INVENTORY.md) §7
+- 표준 답변 후보 자동 추출 흐름: [ROADMAP.md](ROADMAP.md) **1.9 피드백 루프**
+- WBS 1-4 기본자료 검토 입력 자료: [WBS.md](WBS.md) Phase 1
