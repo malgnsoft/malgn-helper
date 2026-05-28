@@ -57,3 +57,33 @@
 | 이행 | 5% (보일러플레이트 첫 배포만) |
 
 > M1 인프라 Ready 게이트 직전. 다음 6개 작업 완료 시 M2(자료 수집) 진입.
+
+### 2. malgn-helper-pms에 `/wbs` 진행 현황 페이지 신규
+
+WBS.md 내용을 시각화한 페이지. 메인 페이지(`/`)에서 우상단 링크로 진입.
+
+**섹션 구성**:
+- 헤더 — WBS 배지 + 마지막 현행화 일자
+- **가중평균 진행률** 큰 숫자 + 게이지 바 (Phase 1 6단계 가중 계산)
+- **단계별 진행률** 6개 카드 (각 단계 ID·이름·비중·진행률·요약 + 게이지)
+- **누적 완료 자산** 4 카드 (인프라/문서/PMS 데모/운영 정책 + 진행률·항목 리스트)
+- **Phase 1 작업 상세** — 6개 접기/펴기 details 블록 (진행 중인 단계는 기본 펼침)
+  - 각 작업 항목 한 줄: ID · 제목 · 비고 · 상태 배지(✅/🟢/⚪/⛔)
+- **다음 단계 우선순위 6건** 카드
+- **Phase 2** placeholder (모두 대기)
+- 푸터에 WBS.md / history/ 원본 링크
+
+**디자인 토큰**:
+- 상태 배지: emerald(done) · amber(in_progress) · neutral(pending) · rose(blocked)
+- 게이지 색상: 70%+ emerald · 30%+ amber · 0%+ neutral
+- 카드: rounded-lg border-neutral-200 bg-white p-4 (브리핑/QA 카드와 일관)
+
+**데이터**: 현재 WBS.md를 미러링한 TypeScript 인라인. 추후 빌드 타임 마크다운 파싱으로 자동화 검토.
+
+배포 URL: https://malgn-helper-pms.pages.dev/wbs
+
+## 배포
+
+### 08:34 — `malgn-helper-pms` → Cloudflare Pages
+- 커밋: `b803162` (신규 커밋: yes)
+- 메시지: feat: /wbs 진행 현황 페이지 + 인덱스 링크
