@@ -251,6 +251,16 @@
 - 표준답변 템플릿(공개판) 초안 포함 + 후속 조치 5건
 - 안전보건진흥원·현대엔지비 예시와 함께 examples/에 누적 — 풀 평가/브리핑/Q&A 세 양식 비교 가능
 
+### 18. Q&A 평가 프롬프트 정의
+
+- [doc/prompts/qa-evaluation.md](../prompts/qa-evaluation.md) 신규 — 단일 Q&A에 대한 요약·평가 보고서를 AI에게 생성시키는 재사용 프롬프트
+- 입력 변수: `POST_ID`, `EVAL_DATE` (선택: `COMMENT_ID`)
+- 데이터 수집 쿼리 4개: 게시글 메타·본문 / 댓글 시간순 / 타이밍(FRT·첫 직원 응답·TTR) / 첨부
+- 5축 평가 프레임(정확성·시간·톤·표준답변화·챗봇 적합성) + 측정 항목 표
+- 출력 양식·작성 규칙·품질 체크리스트 명문화
+- 산출물 저장 경로 표준화: `doc/examples/qa-{POST_ID}-{슬러그}.md`
+- 이로써 prompts/는 3종 완성 — `cs-evaluation.md`(프로젝트 풀평가) / `customer-briefing.md`(프로젝트 브리핑) / `qa-evaluation.md`(단일 Q&A)
+
 ## 배포
 
 ### 11:39 — `malgn-helper-api` → Cloudflare Workers
