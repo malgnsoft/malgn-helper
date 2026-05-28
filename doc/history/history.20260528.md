@@ -352,3 +352,7 @@
 ### 15:29 — `malgn-helper-pms` → Cloudflare Pages
 - 커밋: `64de77e` (신규 커밋: yes)
 - 메시지: feat: 브리핑 히스토리 툴바를 모달 내부로 이동 (version-bar 슬롯)
+
+### 15:37 — `malgn-helper-pms` → Cloudflare Pages
+- 커밋: `24eab33` (신규 커밋: yes)
+- 메시지: feat: 인덱스 모달에도 version-bar 표시 (useBriefingHistory 컴포저블 추출)
