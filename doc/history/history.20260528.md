@@ -261,6 +261,32 @@
 - 산출물 저장 경로 표준화: `doc/examples/qa-{POST_ID}-{슬러그}.md`
 - 이로써 prompts/는 3종 완성 — `cs-evaluation.md`(프로젝트 풀평가) / `customer-briefing.md`(프로젝트 브리핑) / `qa-evaluation.md`(단일 Q&A)
 
+### 19. malgn-helper-pms에 Q&A 평가 카드 통합
+
+`design_handoff_qa_eval_card/` 핸드오프 패키지를 malgn-helper-pms에 통합. 브리핑 카드 통합과 동일한 패턴.
+
+**복사한 파일** (`source/` → repo):
+- `types/qa-eval.ts` · `data/qa-eval.example.ts` (post #94227 데이터 내장)
+- `composables/useQaEvalClipboard.ts`
+- `components/QaEvalCard.vue` (메인 모달) + `components/qa/QaAxisCard.vue` + `components/qa/QaScoreSummary.vue`
+- `pages/posts/[id]/eval.vue` (사용 예시)
+
+**적용한 패턴 수정** (브리핑 카드에서 학습한 lesson 재적용):
+- `QaEvalCard.vue`의 `<UModal>` → **Teleport + 자체 백드랍** 으로 교체 (Nuxt UI v3 UModal 슬롯 호환 X)
+- ESC·백드랍 클릭 닫기, body 스크롤 잠금, fade Transition 동일 적용
+- `pages/posts/[id]/eval.vue`: 모달 자동 오픈 + 닫힘 시 `window.close()` + parent `postMessage({type:'malgn-helper:qa-eval:close'})`
+
+**메인 페이지(`/`) 통합**:
+- "Q&A 평가 카드" 섹션 신규 — post 94227 행 표시(post·제목·프로젝트·문의자·일자·점수·가시성)
+- 행 클릭 시 `QaEvalCard` 모달 팝업
+- 임베드 가이드 섹션과 함께 데모 흐름 완성
+
+**연결 자산**:
+- 데모는 [doc/examples/qa-94227-사용자매뉴얼.md](../examples/qa-94227-사용자매뉴얼.md) 평가 내용을 시각화한 것
+- 양식·프롬프트는 [doc/prompts/qa-evaluation.md](../prompts/qa-evaluation.md)에 정의됨
+
+**검증**: 빌드 1.15 MB / 337 kB gzip. 배포 후 https://malgn-helper-pms.pages.dev/ 메인에서 Q&A 행 클릭 → 모달 확인 가능.
+
 ## 배포
 
 ### 11:39 — `malgn-helper-api` → Cloudflare Workers
@@ -310,3 +336,7 @@
 ### 14:29 — `malgn-helper-pms` → Cloudflare Pages
 - 커밋: `3e5412e` (신규 커밋: yes)
 - 메시지: feat: 임베드 가이드 추가 (URL/window.open/iframe 스니펫) + postMessage 닫기
+
+### 15:03 — `malgn-helper-pms` → Cloudflare Pages
+- 커밋: `4c98af3` (신규 커밋: yes)
+- 메시지: feat: Q&A 평가 카드 통합 (post 94227 데모) + /posts/[id]/eval 모달 페이지
