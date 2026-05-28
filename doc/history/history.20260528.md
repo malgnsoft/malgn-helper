@@ -37,7 +37,7 @@
 | `malgn-helper` | Nuxt 3 / Pages | `package.json`, `nuxt.config.ts`, `app.vue` |
 | `malgn-helper-admin` | Nuxt 3 / Pages | `package.json`, `nuxt.config.ts`, `app.vue` |
 | `malgn-helper-api` | Hono / Workers | `package.json`, `wrangler.jsonc`, `src/index.ts`, `tsconfig.json` |
-| `malgn-helper-pms` | Hono / Workers | `package.json`, `wrangler.jsonc`, `src/index.ts`, `tsconfig.json` |
+| `malgn-helper-pms` | Nuxt 3 / Pages | `package.json`, `nuxt.config.ts`, `app.vue`, `wrangler.toml` (재구성 — §9 참조) |
 
 `pnpm install` 4개 repo 모두 완료. README에 개발·배포 명령 추가.
 
@@ -111,3 +111,15 @@
 - 사용법: `./scripts/deploy.sh <repo> "<commit message>"`
 - [CLAUDE.md](../../CLAUDE.md)에 `## 배포 절차` 섹션 추가 — 일괄 스크립트 사용법 + 수동 절차 + 규칙
 - 배포 실패·secret 변경·`account_id` 규칙 모두 문서화
+
+### 9. `malgn-helper-pms` 스택 전환 — Workers → Pages
+
+사용자 결정 변경에 따라 PMS 애드온 스택을 Hono Workers에서 Nuxt 3 / Pages로 전환.
+
+- 제거: `src/index.ts`, `wrangler.jsonc`, `tsconfig.json` (Hono Worker 보일러플레이트)
+- 추가: `nuxt.config.ts`, `app.vue`, `wrangler.toml` (Pages config, account_id 포함)
+- `package.json` 의존성 교체: `hono` → `nuxt`. deploy 스크립트 `wrangler pages deploy`로 변경
+- `README.md` 스택 섹션 갱신 (Hono on Workers → Nuxt 3 / Pages, iframe·위젯 임베드 명시)
+- Cloudflare Pages 프로젝트 생성: `wrangler pages project create malgn-helper-pms` → https://malgn-helper-pms.pages.dev/
+- [CLAUDE.md](../../CLAUDE.md) 데이터 흐름 다이어그램에서 pms 라벨을 `(Nuxt 3 / Pages, PMS 임베드)`로 명시
+- 본 history 파일 §4 표의 pms 행 갱신 (Workers → Pages)

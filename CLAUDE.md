@@ -37,7 +37,7 @@ NotebookLM 수준의 사내 솔루션 전문 고객상담 AI 챗봇.
       │                  │                      │
       ▼                  ▼                      ▼
 malgn-helper      malgn-helper-admin       malgn-helper-pms
-(Nuxt 3 / Pages)  (Nuxt 3 / Pages)         (PMS 애드온 — 추천 답변·브리핑)
+(Nuxt 3 / Pages)  (Nuxt 3 / Pages)         (Nuxt 3 / Pages, PMS 임베드)
       │                  │                      │
       └──────────────────┼──────────────────────┘
                          ▼
