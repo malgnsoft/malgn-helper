@@ -356,3 +356,7 @@
 ### 15:37 — `malgn-helper-pms` → Cloudflare Pages
 - 커밋: `24eab33` (신규 커밋: yes)
 - 메시지: feat: 인덱스 모달에도 version-bar 표시 (useBriefingHistory 컴포저블 추출)
+
+### 15:40 — `malgn-helper-pms` → Cloudflare Pages
+- 커밋: `9c3b83f` (신규 커밋: yes)
+- 메시지: fix: 주의 배지에 ring 테두리 추가 (시안 ring-amber-200 적용)
