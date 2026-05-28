@@ -376,3 +376,7 @@
 ### 16:09 — `malgn-helper-pms` → Cloudflare Pages
 - 커밋: `68f7009` (신규 커밋: yes)
 - 메시지: fix: color='gray' → color='neutral' (Nuxt UI v3 컬러 토큰 변경 반영)
+
+### 16:13 — `malgn-helper-pms` → Cloudflare Pages
+- 커밋: `6b0707a` (신규 커밋: yes)
+- 메시지: fix: Q&A 평균 점수를 5-스타 시각 표시로 변경 (각 축 카드와 일관성)
