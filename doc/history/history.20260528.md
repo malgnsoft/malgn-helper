@@ -288,3 +288,7 @@
 ### 13:56 — `malgn-helper-pms` → Cloudflare Pages
 - 커밋: `df9023b` (신규 커밋: yes)
 - 메시지: fix: 브리핑 카드를 Teleport 기반 모달로 변경 (UModal v3 슬롯 호환 X)
+
+### 14:29 — `malgn-helper-pms` → Cloudflare Pages
+- 커밋: `3e5412e` (신규 커밋: yes)
+- 메시지: feat: 임베드 가이드 추가 (URL/window.open/iframe 스니펫) + postMessage 닫기
