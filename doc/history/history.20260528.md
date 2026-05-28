@@ -187,6 +187,28 @@
 
 핸드오프 시안의 "디자인 사양 100% 재현" 목표는 컴포넌트 자체에서 처리. 실제 API 연결(`/api/projects/:id/briefing`)은 추후 malgn-helper-api 엔드포인트 구현 시 연결.
 
+### 14. malgn-helper-pms 예시 화면 구성
+
+브리핑 카드를 실제 운영 맥락에서 보여주기 위한 데모 화면 두 개 추가.
+
+**`/` (`pages/index.vue`) — 고객사 목록**
+- PMS 배지·헤더·안내 문구
+- 프로젝트 카드 1개(현대엔지비 LMS) — 클릭 시 `/projects/1162`로 이동
+- 분류 규칙(`@malgnsoft.com`) 풋터 안내
+
+**`/projects/1162` (`pages/projects/[id].vue`) — 상세 페이지**
+- 브레드크럼: 고객사 목록 → #1162
+- 헤더: 활성 점·프로젝트명·부제·우상단 **브리핑 카드** 버튼
+- 라벨 필터 chips (`briefing.hotLabels` 기반)
+- **가짜 게시글 테이블** 7건 — `tb_post` 스타일 (ID·라벨·제목·작성자·댓글·등록일·상태)
+  - 라벨/상태별 색상 ring (rose/amber/neutral/primary/emerald)
+  - 첫 행(post 92843)은 미응답으로 표시 — 브리핑 알림과 정합
+- 푸터: 데모 데이터임 명시
+
+**검증**: 빌드 성공 (576 kB / 186 kB gzip). 배포 후 https://malgn-helper-pms.pages.dev/ 에서 두 페이지 확인 가능.
+
+실제 운영 시 `pages/index.vue`의 카드와 `pages/projects/[id].vue`의 게시글 테이블은 malgn-helper-api 엔드포인트 응답으로 채워질 예정.
+
 ## 배포
 
 ### 11:39 — `malgn-helper-api` → Cloudflare Workers
@@ -208,3 +230,7 @@
 ### 12:42 — `malgn-helper-pms` → Cloudflare Pages
 - 커밋: `095f641` (신규 커밋: yes)
 - 메시지: feat: 브리핑 카드 디자인 통합 (Nuxt UI + Pretendard)
+
+### 12:55 — `malgn-helper-pms` → Cloudflare Pages
+- 커밋: `5c58977` (신규 커밋: yes)
+- 메시지: feat: 예시 화면 - 고객사 목록 + 상세 페이지 + 가짜 게시글 테이블
