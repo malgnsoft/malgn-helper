@@ -103,4 +103,9 @@ pnpm deploy
 - Secret 변경은 별도 — `wrangler secret put <KEY>` 후 deploy.
 - 배포 실패 시 history에 실패 사유 함께 기록.
 - 이력 파일은 누적 — 같은 날 추가 배포는 기존 파일에 항목만 추가.
-- `account_id`는 각 repo의 `wrangler.jsonc` / `wrangler.toml`에 명시되어 있어 환경변수 불필요.
+- **account_id 주입 방식**:
+  - Workers (`wrangler.jsonc`)는 `account_id` 필드를 지원 → 파일에 명시.
+  - Pages (`wrangler.toml`)는 `account_id` 필드 **미지원** → `scripts/deploy.sh`에서 `CLOUDFLARE_ACCOUNT_ID` 환경변수로 주입.
+  - 수동 배포 시 Pages는 `CLOUDFLARE_ACCOUNT_ID=... pnpm run deploy` 형태로 실행 필요.
+- **`pnpm deploy` 대신 `pnpm run deploy`** — `deploy`는 pnpm 예약어라 충돌. 항상 `run`을 명시.
+- **Nuxt Cloudflare Pages 출력 디렉토리는 `dist/`** — `wrangler.toml`의 `pages_build_output_dir`도 `dist`로 설정.

@@ -124,6 +124,35 @@
 - [CLAUDE.md](../../CLAUDE.md) 데이터 흐름 다이어그램에서 pms 라벨을 `(Nuxt 3 / Pages, PMS 임베드)`로 명시
 - 본 history 파일 §4 표의 pms 행 갱신 (Workers → Pages)
 
+### 10. 첫 Cloudflare 배포 + 배포 환경 이슈 수정
+
+4개 repo 전체를 Cloudflare에 최초 배포. 진행 중 세 가지 이슈 발견·수정.
+
+**발견된 이슈**
+
+| # | 증상 | 원인 |
+| --- | --- | --- |
+| 1 | `ERR_PNPM_CANNOT_DEPLOY  A deploy is only possible from inside a workspace` | `pnpm deploy`는 pnpm 워크스페이스 예약어. 스크립트 호출은 `pnpm run deploy`여야 함 |
+| 2 | `Configuration file for Pages projects does not support "account_id"` | Pages용 `wrangler.toml`은 `account_id` 필드 미지원 (Workers만 지원) |
+| 3 | Nuxt 빌드 산출물이 `dist/`인데 `wrangler.toml`은 `.output/public`로 설정 | Nuxt 3 cloudflare-pages preset의 실제 출력은 `dist/` |
+
+**수정 사항**
+
+- `scripts/deploy.sh`: `pnpm deploy` → `pnpm run deploy` 로 변경. Pages용으로 `CLOUDFLARE_ACCOUNT_ID` env 변수 export 추가
+- `malgn-helper` / `-admin` / `-pms`의 `wrangler.toml`: `account_id` 제거 + `pages_build_output_dir = "dist"`
+- [CLAUDE.md](../../CLAUDE.md) `## 배포 절차`의 account_id 안내 갱신 (Workers와 Pages 차이, `pnpm run deploy` 명시, 출력 디렉토리 `dist/` 명시)
+
+**배포 결과**
+
+| Repo | Production URL | 커밋 |
+| --- | --- | --- |
+| `malgn-helper-api` | https://malgn-helper-api.malgnsoft.workers.dev | `8ea04c5` |
+| `malgn-helper-pms` | https://malgn-helper-pms.pages.dev/ | `676724d` |
+| `malgn-helper` | https://malgn-helper.pages.dev/ | `cf1e931` |
+| `malgn-helper-admin` | https://malgn-helper-admin.pages.dev/ | `a613e64` |
+
+`scripts/deploy.sh`가 4건 모두 자동 처리 (commit-skip 또는 fix 커밋 → push → build·deploy → 이력 append).
+
 ## 배포
 
 ### 11:39 — `malgn-helper-api` → Cloudflare Workers
@@ -132,4 +161,12 @@
 
 ### 11:41 — `malgn-helper-pms` → Cloudflare Pages
 - 커밋: `676724d` (신규 커밋: yes)
+- 메시지: chore: Cloudflare 최초 배포
+
+### 11:41 — `malgn-helper` → Cloudflare Pages
+- 커밋: `cf1e931` (신규 커밋: yes)
+- 메시지: chore: Cloudflare 최초 배포
+
+### 11:42 — `malgn-helper-admin` → Cloudflare Pages
+- 커밋: `a613e64` (신규 커밋: yes)
 - 메시지: chore: Cloudflare 최초 배포
