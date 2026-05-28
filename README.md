@@ -25,3 +25,19 @@ NotebookLM 수준의 사내 솔루션 전문 고객상담 AI 챗봇 — **사용
 ## 인프라
 
 Cloudflare (Pages + Workers + R2 + Hyperdrive + AI Gateway) · Aurora MySQL · AWS OpenSearch · Anthropic Claude.
+
+## 개발·배포 (사용자 챗봇 프론트엔드)
+
+```bash
+pnpm install              # 의존성 설치
+pnpm dev                  # 로컬 개발 (nuxt dev)
+pnpm build                # 프로덕션 빌드
+pnpm deploy               # Cloudflare Pages 배포 (.output/public)
+```
+
+최초 배포 전 Pages 프로젝트 생성 필요:
+```bash
+wrangler pages project create malgn-helper
+```
+
+`wrangler login` 또는 `CLOUDFLARE_API_TOKEN` 환경변수 필요.
