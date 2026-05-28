@@ -8,7 +8,7 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "deploy": "nuxt build && wrangler pages deploy .output/public --project-name malgn-helper"
+    "deploy": "nuxt build && wrangler pages deploy"
   },
   "devDependencies": {
     "nuxt": "^3.13.0",
