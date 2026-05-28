@@ -372,3 +372,7 @@
 ### 16:07 — `malgn-helper-pms` → Cloudflare Pages
 - 커밋: `6a7cf51` (신규 커밋: yes)
 - 메시지: fix: 표준답변 저장 버튼 잘림 수정 (라벨 단축 + whitespace-nowrap + size xs)
+
+### 16:09 — `malgn-helper-pms` → Cloudflare Pages
+- 커밋: `68f7009` (신규 커밋: yes)
+- 메시지: fix: color='gray' → color='neutral' (Nuxt UI v3 컬러 토큰 변경 반영)
