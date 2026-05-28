@@ -165,6 +165,28 @@
 - 본문 내 인라인 비교 언급 제거 (카드의 "안전보건진흥원 5h 대비 12배", §2의 "안전보건진흥원의 1인 단독과 정반대")
 - Cross-link의 "풀 평가 양식 예시: 안전보건진흥원.md"는 포맷 참조이므로 유지
 
+### 13. malgn-helper-pms에 브리핑 카드 디자인 통합
+
+`design_handoff_briefing_card/` 핸드오프 패키지를 malgn-helper-pms에 통합.
+
+**복사한 파일** (`source/` → repo root):
+- `app.config.ts` (ui.primary = sky, ui.gray = neutral)
+- `types/briefing.ts` · `data/briefing.example.ts`
+- `composables/useBriefingClipboard.ts`
+- `components/BriefingCard.vue` (메인 모달)
+- `pages/projects/[id].vue` (사용 예시)
+
+**환경 설정**:
+- `pnpm add @nuxt/ui` (4.8.0 설치됨)
+- `assets/css/fonts.css` 신규 — Pretendard Variable CDN 임포트
+- `nuxt.config.ts`에 `modules: ['@nuxt/ui']` + `css: ['~/assets/css/fonts.css']` 추가
+- `app.vue` → 페이지 슬롯 (`<NuxtPage />`)로 변경
+- `pages/index.vue` 신규 — 예시 페이지 링크 안내 (`/projects/1162` → 현대엔지비 데모)
+
+**검증**: `pnpm run build` 성공. dist/ 산출 정상 (560 kB / 182 kB gzip).
+
+핸드오프 시안의 "디자인 사양 100% 재현" 목표는 컴포넌트 자체에서 처리. 실제 API 연결(`/api/projects/:id/briefing`)은 추후 malgn-helper-api 엔드포인트 구현 시 연결.
+
 ## 배포
 
 ### 11:39 — `malgn-helper-api` → Cloudflare Workers
@@ -182,3 +204,7 @@
 ### 11:42 — `malgn-helper-admin` → Cloudflare Pages
 - 커밋: `a613e64` (신규 커밋: yes)
 - 메시지: chore: Cloudflare 최초 배포
+
+### 12:42 — `malgn-helper-pms` → Cloudflare Pages
+- 커밋: `095f641` (신규 커밋: yes)
+- 메시지: feat: 브리핑 카드 디자인 통합 (Nuxt UI + Pretendard)
