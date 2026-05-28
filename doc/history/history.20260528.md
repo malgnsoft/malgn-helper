@@ -384,3 +384,7 @@
 ### 16:16 — `malgn-helper-pms` → Cloudflare Pages
 - 커밋: `ed7713d` (신규 커밋: yes)
 - 메시지: fix: 평균 별점 표시 amber 토큰 + UTooltip 제거 (v3 컬러 호환)
+
+### 16:30 — `malgn-helper-pms` → Cloudflare Pages
+- 커밋: `98f3a07` (신규 커밋: yes)
+- 메시지: fix: Q&A 평균 점수 배지에서 별 아이콘 제거 (텍스트만)
