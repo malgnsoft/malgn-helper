@@ -223,6 +223,26 @@
 
 > Lesson: 외부 디자인 시스템·컴포넌트 패키지를 통합할 때 **README가 명시한 버전 범위를 반드시 준수**. `latest`로 설치하지 말 것.
 
+### 16. Tailwind CSS v4 스캔 누락 수정
+
+**증상**: 브리핑 카드 모달이 스타일 없이 plain HTML로 렌더링됨 (스크린샷 확인). v3 다운그레이드만으로 해결되지 않은 별도 이슈.
+
+**원인**: `@nuxt/ui` v3은 Tailwind v4 기반인데, Tailwind v4는 CSS 파일이 위치한 디렉토리(`assets/css/`)부터만 스캔. 우리의 Vue 컴포넌트(`components/`, `pages/`)는 스캔 범위 밖이라 사용된 utility 클래스가 컴파일되지 않음.
+
+**조치**:
+- `assets/css/main.css` 신규(기존 fonts.css 통합):
+  ```css
+  @import "tailwindcss";
+  @import "@nuxt/ui";
+  @source "../..";
+  ```
+- `@source "../.."`로 프로젝트 전체를 Tailwind 스캔 범위에 포함
+- `nuxt.config.ts`에 `@tailwindcss/vite` 플러그인 명시 등록 (자동 등록이 안 됨)
+
+**검증**: 빌드 후 `entry-styles`에 `max-w-[960px]`, `hover:bg-neutral-50`, `backdrop-blur` 등 컴포넌트 사용 클래스 모두 포함됨.
+
+> Lesson: Tailwind v4는 CSS 파일 위치 기준으로 스캔. 프로젝트 구조에 따라 `@source` 디렉티브로 명시적 스캔 범위 지정이 필요.
+
 ## 배포
 
 ### 11:39 — `malgn-helper-api` → Cloudflare Workers
@@ -252,3 +272,7 @@
 ### 13:00 — `malgn-helper-pms` → Cloudflare Pages
 - 커밋: `a9decc2` (신규 커밋: yes)
 - 메시지: fix: @nuxt/ui를 v3.3.7로 다운그레이드 (핸드오프 시안 호환)
+
+### 13:09 — `malgn-helper-pms` → Cloudflare Pages
+- 커밋: `7f4cab9` (신규 커밋: yes)
+- 메시지: fix: Tailwind v4 @source 지시자 추가로 컴포넌트 클래스 스캔 활성화
