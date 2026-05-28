@@ -209,6 +209,20 @@
 
 실제 운영 시 `pages/index.vue`의 카드와 `pages/projects/[id].vue`의 게시글 테이블은 malgn-helper-api 엔드포인트 응답으로 채워질 예정.
 
+### 15. `@nuxt/ui` v4 → v3 다운그레이드 (시안 호환성)
+
+**증상**: 브리핑 카드 모달이 핸드오프 시안과 다르게 렌더링됨.
+
+**원인**: 핸드오프 README는 `@nuxt/ui v2 또는 v3` 기준으로 작성됐고, `source/components/BriefingCard.vue`도 v3 API에 맞춰져 있음. 그러나 `pnpm add @nuxt/ui`로 설치되는 latest는 **v4.8.0**으로 메이저 변경(컴포넌트 API·슬롯·prop 이름 등)이 있어 호환 문제가 발생.
+
+**조치**:
+- `pnpm remove @nuxt/ui` → `pnpm add @nuxt/ui@^3` (3.3.7 설치됨)
+- 빌드 확인 후 재배포
+
+**결과**: 모달이 핸드오프 시안 의도대로 렌더링되어야 함. 사용자 확인 필요.
+
+> Lesson: 외부 디자인 시스템·컴포넌트 패키지를 통합할 때 **README가 명시한 버전 범위를 반드시 준수**. `latest`로 설치하지 말 것.
+
 ## 배포
 
 ### 11:39 — `malgn-helper-api` → Cloudflare Workers
@@ -234,3 +248,7 @@
 ### 12:55 — `malgn-helper-pms` → Cloudflare Pages
 - 커밋: `5c58977` (신규 커밋: yes)
 - 메시지: feat: 예시 화면 - 고객사 목록 + 상세 페이지 + 가짜 게시글 테이블
+
+### 13:00 — `malgn-helper-pms` → Cloudflare Pages
+- 커밋: `a9decc2` (신규 커밋: yes)
+- 메시지: fix: @nuxt/ui를 v3.3.7로 다운그레이드 (핸드오프 시안 호환)
