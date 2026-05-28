@@ -280,3 +280,7 @@
 ### 13:48 — `malgn-helper-pms` → Cloudflare Pages
 - 커밋: `2baa795` (신규 커밋: yes)
 - 메시지: refactor: 상세 페이지를 브리핑 모달 단독 표시로 단순화
+
+### 13:51 — `malgn-helper-pms` → Cloudflare Pages
+- 커밋: `eec6d64` (신규 커밋: yes)
+- 메시지: feat: 고객사 카드 클릭 시 브리핑 모달 팝업 (페이지 이동 X)
