@@ -84,9 +84,30 @@
 
 ## 다음 단계 후보
 
-- [ ] 첫 Workers/Pages 배포 시도 — `pnpm deploy` × 4
+- [ ] 첫 Workers/Pages 배포 시도 — `./scripts/deploy.sh <repo> "<msg>"`
 - [ ] [wbs.md](../wbs.md) **P1-1.4 Aurora MySQL + Hyperdrive 바인딩** — Aurora 프로비저닝 후 `wrangler.jsonc`에 `HYPERDRIVE` 바인딩 추가
 - [ ] **P1-1.6 R2 버킷 생성** — `wrangler r2 bucket create malgn-helper-files` + 바인딩
 - [ ] **P1-1.7 OpenSearch 도메인 프로비저닝**
 - [ ] **P1-1.8 AI Gateway 설정** + Anthropic API 키 secret 등록 (`wrangler secret put ANTHROPIC_API_KEY`)
 - [ ] [doc/roadmap.md](../roadmap.md) **Phase 1 M1** 인프라 Ready 게이트 점검
+
+---
+
+## 추가 작업 (이력 시스템·배포 자동화)
+
+### 7. 일단위 작업 이력 도입
+
+- [doc/history/history.20260528.md](history.20260528.md) (본 파일) 신규 — 오늘 작업 6건 정리
+- 메모리에 규칙 저장: `doc/history/history.yyyyMMdd.md`에 매일 누적 기록 (덮어쓰기 X)
+- [CLAUDE.md](../../CLAUDE.md) 직접 변경은 없음. 메모리·MEMORY.md 인덱스 갱신
+
+### 8. 배포 일괄 처리 스크립트
+
+- [scripts/deploy.sh](../../scripts/deploy.sh) 신규 — 4단계 일괄 처리:
+  1. `git commit -m <msg>` (변경 없으면 skip)
+  2. `git push`
+  3. `pnpm deploy` (Workers/Pages 자동 분기 — `wrangler.toml` 존재 여부로)
+  4. `doc/history/history.{yyyyMMdd}.md`의 `## 배포` 섹션에 항목 append
+- 사용법: `./scripts/deploy.sh <repo> "<commit message>"`
+- [CLAUDE.md](../../CLAUDE.md)에 `## 배포 절차` 섹션 추가 — 일괄 스크립트 사용법 + 수동 절차 + 규칙
+- 배포 실패·secret 변경·`account_id` 규칙 모두 문서화

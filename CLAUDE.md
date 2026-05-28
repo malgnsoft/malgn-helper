@@ -67,3 +67,40 @@ malgn-helper      malgn-helper-admin       malgn-helper-pms
 - DB 접근은 Worker → Hyperdrive 경유. 직접 연결 코드 금지.
 - 모든 LLM 호출은 AI Gateway를 통과시켜 캐싱·로깅·rate limit을 적용한다.
 - `malgn-helper-pms`는 PMS 시스템 내부에서 동작하지만 **DB·LLM 직접 접근 금지** — 반드시 `malgn-helper-api`를 통해 호출한다 (인증/권한·로깅 일원화).
+
+## 배포 절차
+
+서브프로젝트(`malgn-helper` / `-admin` / `-api` / `-pms`) 배포 시 **커밋 → 푸시 → Cloudflare deploy → 이력 기록**을 일괄 처리한다.
+
+### 일괄 스크립트 (권장)
+
+워크스페이스 루트(`malgn-helper`)에서:
+
+```bash
+./scripts/deploy.sh <repo-name> "<commit message>"
+```
+
+- `<repo-name>`: `malgn-helper` | `malgn-helper-admin` | `malgn-helper-api` | `malgn-helper-pms`
+- 스크립트가 자동 실행하는 4단계:
+  1. `git add -A && git commit -m "<message>"` (변경 없으면 commit skip)
+  2. `git push`
+  3. 해당 repo에서 `pnpm deploy` — `wrangler.toml` 존재 여부로 Pages/Workers 자동 분기
+  4. `doc/history/history.{yyyyMMdd}.md`의 `## 배포` 섹션에 항목 append (파일 없으면 생성)
+
+### 수동 절차 (스크립트 미사용 시)
+
+```bash
+cd ~/Projects/<repo>
+git add . && git commit -m "<message>"
+git push
+pnpm deploy
+# doc/history/history.{yyyyMMdd}.md에 배포 항목 직접 추가
+```
+
+### 규칙
+
+- 변경된 repo만 배포. 4개 일괄 배포 금지.
+- Secret 변경은 별도 — `wrangler secret put <KEY>` 후 deploy.
+- 배포 실패 시 history에 실패 사유 함께 기록.
+- 이력 파일은 누적 — 같은 날 추가 배포는 기존 파일에 항목만 추가.
+- `account_id`는 각 repo의 `wrangler.jsonc` / `wrangler.toml`에 명시되어 있어 환경변수 불필요.
