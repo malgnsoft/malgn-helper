@@ -67,7 +67,10 @@ echo "    ✓ origin/$(git rev-parse --abbrev-ref HEAD)"
 echo "  [3/4] cloudflare deploy"
 DEPLOY_KIND="Cloudflare Workers"
 [[ -f "$REPO_DIR/wrangler.toml" ]] && DEPLOY_KIND="Cloudflare Pages"
-pnpm deploy 2>&1 | tail -20
+# Pages는 wrangler.toml에서 account_id를 지원하지 않아 env 변수로 주입.
+# Workers는 wrangler.jsonc에 account_id가 있어 무시되지만, 같이 export해도 무해.
+export CLOUDFLARE_ACCOUNT_ID="d2b8c5524b7259214fa302f1fecb4ad6"
+pnpm run deploy 2>&1 | tail -20
 echo "    ✓ $DEPLOY_KIND"
 
 # 4) history append

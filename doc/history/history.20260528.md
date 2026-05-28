@@ -123,3 +123,13 @@
 - Cloudflare Pages 프로젝트 생성: `wrangler pages project create malgn-helper-pms` → https://malgn-helper-pms.pages.dev/
 - [CLAUDE.md](../../CLAUDE.md) 데이터 흐름 다이어그램에서 pms 라벨을 `(Nuxt 3 / Pages, PMS 임베드)`로 명시
 - 본 history 파일 §4 표의 pms 행 갱신 (Workers → Pages)
+
+## 배포
+
+### 11:39 — `malgn-helper-api` → Cloudflare Workers
+- 커밋: `8ea04c5` (신규 커밋: no)
+- 메시지: chore: Cloudflare 최초 배포
+
+### 11:41 — `malgn-helper-pms` → Cloudflare Pages
+- 커밋: `676724d` (신규 커밋: yes)
+- 메시지: chore: Cloudflare 최초 배포
