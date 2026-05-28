@@ -348,3 +348,7 @@
 ### 15:22 — `malgn-helper-pms` → Cloudflare Pages
 - 커밋: `fbce0cb` (신규 커밋: yes)
 - 메시지: feat: 브리핑 워크플로 페이지 (빈 상태 + AI 생성 + 히스토리 셀렉트)
+
+### 15:29 — `malgn-helper-pms` → Cloudflare Pages
+- 커밋: `64de77e` (신규 커밋: yes)
+- 메시지: feat: 브리핑 히스토리 툴바를 모달 내부로 이동 (version-bar 슬롯)
