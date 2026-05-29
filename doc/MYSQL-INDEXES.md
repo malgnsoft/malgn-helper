@@ -46,14 +46,43 @@ ALTER TABLE tb_post_comment ADD INDEX idx_postid_userid_status (post_id, user_id
 ## 적용 절차 (운영팀 검토)
 
 1. **백업 또는 dry run** — 운영 PMS에 적용 전 테스트 서버에서 EXPLAIN 비교
-2. **온라인 ALTER**: MySQL 5.6에서 InnoDB는 `ALGORITHM=INPLACE` 지원
+2. **온라인 ALTER 시도** — MySQL 5.6 InnoDB는 환경에 따라 옵션 제약. 단계적으로:
+
+   **1단계 — LOCK 옵션 생략 (대부분 OK)**
    ```sql
    ALTER TABLE tb_post
      ADD INDEX idx_project_status_regdate (project_id, status, reg_date),
-     ALGORITHM=INPLACE, LOCK=NONE;
+     ALGORITHM=INPLACE;
    ```
-   - 쓰기 차단 없이 추가됨 (행 수 많으면 시간 걸림)
-3. **검증**: 적용 후 첫 브리핑 카드 호출이 5~10배 빨라지면 OK
+
+   **2단계 — `LOCK=NONE` 미지원 에러(2A000/1845) 시**
+   ```sql
+   ALTER TABLE tb_post
+     ADD INDEX idx_project_status_regdate (project_id, status, reg_date),
+     ALGORITHM=INPLACE, LOCK=SHARED;
+   ```
+   - 읽기 허용, 쓰기만 짧게 차단
+
+   **3단계 — 그래도 안 되면 점검 시간에 `ALGORITHM=COPY`**
+   ```sql
+   ALTER TABLE tb_post
+     ADD INDEX idx_project_status_regdate (project_id, status, reg_date),
+     ALGORITHM=COPY;
+   ```
+   - 테이블 복사 (쓰기 차단). tb_post 크기에 따라 수 분
+   - 점검 윈도 확보 후
+
+   **4단계 — 무중단 필수면 외부 도구**
+   ```bash
+   # Percona toolkit
+   pt-online-schema-change \
+     --alter "ADD INDEX idx_project_status_regdate (project_id, status, reg_date)" \
+     D=pms,t=tb_post \
+     --execute
+   ```
+   - 또는 `gh-ost` (GitHub)
+
+3. **검증**: 적용 후 첫 브리핑 카드 호출(`force=1`)이 5~10배 빨라지면 OK
 
 ---
 
