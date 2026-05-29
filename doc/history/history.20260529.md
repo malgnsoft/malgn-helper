@@ -1,5 +1,99 @@
 # 작업 이력 — 2026-05-29
 
+## 종합 (end-of-day)
+
+하루 안에 **스토리보드 수준 PMS 데모 → 진짜 동작하는 LLM 기반 CS 헬퍼 백엔드/관리자**로 도약. 6개 단계 흐름:
+
+1. **WBS 페이지 폴리시·정합성 정리**
+   - 인라인 편집(목표일·완료일·상태) + R2 자동 저장(800ms 디바운스)
+   - 가중평균 수식 버그 수정 + stage weight 합 100 정규화 (0.2% → 24.2%)
+   - PMS 통합 항목(`P1-3-9~13`)이 실구현이 아닌 **사용자단 스토리보드**임을 식별하고 `P1-2-7~11`로 재배치 → 진행률 더 정직해짐
+
+2. **인프라 활성화 (Hyperdrive · R2 · AI Gateway)**
+   - Hyperdrive `pms` (id `aea3...`) → PMS MySQL(5.6.51) 연결
+   - R2 `malgn-helper-files` 생성 (WBS 영속화)
+   - AI Gateway `malgn-helper` (Authenticated 모드, compat endpoint)
+   - 시크릿: `OPENAI_API_KEY`, `AI_GATEWAY_TOKEN`
+
+3. **PMS DB 연동 + 첫 실 엔드포인트**
+   - DB 탐색용 dev 엔드포인트(`/db/tables` 등) 신설, PMS 27개 테이블 구조 파악
+   - `GET /pms/projects` (검색·페이지네이션, 활성 1,653건)
+   - `GET /pms/posts/:id` (직원/고객 분류 + **비공개 댓글 본문 마스킹**)
+   - `GET /pms/projects/:id/briefing` (DB-only 집계 — 멤버/통계/라벨/알림)
+   - PMS의 `BriefingCard` 모킹을 **실 API 호출**로 전환 (P1-2-7 스토리보드 → 실서비스)
+
+4. **헬퍼 전용 DB 스키마 + 캐싱 인프라**
+   - `hp_*` 4 테이블 설계·문서화: `hp_briefing` / `hp_qa_eval` / `hp_standard_answer` / `hp_llm_log`
+   - 일회용 admin 엔드포인트로 DDL 실행 후 secret·코드 제거
+   - `POST /pms/projects/:id/briefing/generate` — `llm_input_hash` 기반 24h 캐시 hit + `hp_llm_log` 감사 기록 + graceful degrade
+
+5. **LLM 실 연동 (OpenAI via AI Gateway)**
+   - CLAUDE.md: Claude → OpenAI(`gpt-4o-mini` 기본)로 변경
+   - 첫 호출 검증: project 1446 hotTopics 7개 군집화 ("훈련생 오류 15 / 서버 10 / ...")
+   - 브리핑 LLM 확장: `oneLiner` + `statusReason` + `urgentCount` + `faq` + `policies`
+   - Q&A 평가 카드 전체 LLM 연동: 5축(A~E) score + commentary + **D축 templates 자동 생성** + followups + observation
+   - LLM 2회 호출 **병렬화** (`Promise.allSettled`): 7s → 3.5s (50% 단축)
+
+6. **운영·관리자 도구**
+   - `/admin/cost` 대시보드 (`hp_llm_log` 일·모델·엔티티 집계 + 최근 100건 추적)
+   - `/admin/evals` Q&A 평가 목록 (정렬·필터·점수 색 분기, score_asc로 취약 응대 발굴)
+   - `/projects` 프로젝트 목록 (1,653건, 검색·페이지네이션)
+   - `/doc` Scalar + OpenAPI 3.1 (수동 스펙, 22개 엔드포인트)
+   - 홈에 4개 진입 링크 노출, 헤더 제목 "고객사 목록" → "맑은도우미 데모"
+   - Cloudflare Access `/admin/*` `/db/*` 보호 가이드 문서
+
+### 산출 카운트
+
+| 항목 | 수 |
+| --- | ---: |
+| 신규 API 엔드포인트 | 22개 |
+| 신규 PMS 페이지 | 5개 (`/projects` `/admin/cost` `/admin/evals` `/admin/cost` `/doc`은 API 측) |
+| 신규 DB 테이블 (PMS DB) | 4개 (`hp_*`) |
+| 신규 인프라 | R2 버킷 1 / Hyperdrive 1 / AI Gateway 1 |
+| 신규 문서 | `WBS-TRACKER.md` / `HP-SCHEMA.md` / `CLOUDFLARE-ACCESS.md` |
+| 메모리 추가 | 2건 (스토리보드 식별 / Hyperdrive 캐싱 stale) |
+| 배포 (정식 deploy.sh) | 약 35회 (말미 기준) |
+
+### 첫 LLM 호출 결과 (project 1446)
+
+| 항목 | 값 |
+| --- | --- |
+| hotTopics | 훈련생 오류 15 / 서버·접속 10 / 강의·콘텐츠 10 / 수료증 8 / 문서 6 / 결제 5 / 기타 4 |
+| statusReason (LLM) | "긴급 문의가 다수 발생" |
+| urgent | 0 (DB) → **6** (LLM 추정) |
+| faq (자동 추출) | 학습시간 오류 / SSL 갱신 / 강의 오류메세지 / 모바일 영상 / 과제 재제출 불가 |
+| policies (직원 응답 패턴) | 강의 수강 환경 안내 / SSL 인증서 관리 |
+| 비용 | $0.0012 (≈ ₩1.6) / brief 1회 |
+| 캐시 hit 시 비용 | $0 |
+
+### 결정/사건
+
+- **D1 DB 거부 → R2 + JSON 영속화** (어제 결정 유지)
+- **PMS 운영 DB에 `hp_*` 접두사로 헬퍼 테이블 공존** (별도 DB 분리는 추후 시나리오 문서화)
+- **LLM 공급자 Claude → OpenAI** (사용자 키 제공 따라)
+- **AI Gateway Authenticated 모드** (cf-aig-authorization 토큰)
+- **사용자단 스토리보드 vs 실서비스 구분** 룰 명문화 (메모리)
+- **OpenAI 키 채팅 노출** 사용자가 재발급 보류 — 그대로 사용 결정
+
+### 알려진 잔여 이슈
+
+- `hp_qa_eval.overall_verdict` VARCHAR(20) → LLM 결과 20자 trim. `eval_json` 안에는 전체 보존, 컬럼만 마이그레이션하면 해결
+- Hyperdrive read 캐싱으로 write 후 GET이 stale 보일 수 있음 (메모리 기록, 임팩트 작음)
+- `/admin/*` `/db/*` 무인증 — 가이드(`doc/CLOUDFLARE-ACCESS.md`)대로 적용 권장
+- `/db/*` 탐색 엔드포인트는 안정화 후 제거 예정 (OpenAPI에 명시)
+
+### 미리보기 링크
+
+- 홈: https://malgn-helper-pms.pages.dev/
+- 프로젝트 목록: https://malgn-helper-pms.pages.dev/projects
+- 프로젝트 브리핑 (LLM): https://malgn-helper-pms.pages.dev/projects/1446
+- Q&A 평가 목록: https://malgn-helper-pms.pages.dev/admin/evals
+- LLM 비용 대시보드: https://malgn-helper-pms.pages.dev/admin/cost
+- WBS Tracker: https://malgn-helper-pms.pages.dev/wbs
+- API 문서: https://malgn-helper-api.malgnsoft.workers.dev/doc
+
+---
+
 ## 요약
 
 [WBS.md](../WBS.md) 현행화. 어제(2026-05-28) 누적된 19개 작업 단위와 4개 repo의 진행 상태를 반영해 전 단계 진행률·상태·신규 카테고리(PMS 애드온)를 추가.
