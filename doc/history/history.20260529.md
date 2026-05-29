@@ -77,7 +77,7 @@
 
 ### 알려진 잔여 이슈
 
-- `hp_qa_eval.overall_verdict` VARCHAR(20) → LLM 결과 20자 trim. `eval_json` 안에는 전체 보존, 컬럼만 마이그레이션하면 해결
+- ~~`hp_qa_eval.overall_verdict` VARCHAR(20)~~ → **VARCHAR(100) 마이그레이션 완료** (eod 추가 작업, 검증: "문의에 대한 답변이 부족하여 개선이 필요합니다." 26자 정상 저장)
 - Hyperdrive read 캐싱으로 write 후 GET이 stale 보일 수 있음 (메모리 기록, 임팩트 작음)
 - `/admin/*` `/db/*` 무인증 — 가이드(`doc/CLOUDFLARE-ACCESS.md`)대로 적용 권장
 - `/db/*` 탐색 엔드포인트는 안정화 후 제거 예정 (OpenAPI에 명시)
