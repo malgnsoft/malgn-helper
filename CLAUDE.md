@@ -28,7 +28,9 @@ NotebookLM 수준의 사내 솔루션 전문 고객상담 AI 챗봇.
 - 검색 인프라는 외부 **AWS OpenSearch Service** (k-NN + BM25 하이브리드)
 - 원본 파일 저장소는 **Cloudflare R2**
 - 인덱싱은 **MVP에서 동기 처리**. 동영상/대용량 자료가 늘어나면 **Cloudflare Queues + Indexer Worker**로 2단계 도입.
-- LLM 호출은 **Cloudflare AI Gateway** → **Claude**
+- LLM 호출은 **Cloudflare AI Gateway** → **OpenAI** (기본 `gpt-4o-mini`, 고품질 작업은 `gpt-4o`)
+  - Gateway 이름: `malgn-helper`
+  - Worker 환경변수: `AI_GATEWAY_URL` (vars), `OPENAI_API_KEY` (secret)
 
 ## 데이터 흐름
 
@@ -52,7 +54,7 @@ malgn-helper      malgn-helper-admin       malgn-helper-pms
  Aurora MySQL
 
                          ▼
-                  AI Gateway → Claude
+                  AI Gateway → OpenAI
 
   ※ 향후 동영상/대용량 자료 도입 시:
     Queue → Indexer Worker 비동기 파이프라인 추가
