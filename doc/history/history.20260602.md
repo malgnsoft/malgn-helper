@@ -14,3 +14,11 @@
 ### 14:12 — `malgn-helper-admin` → Cloudflare Pages
 - 커밋: `c754924` (신규 커밋: yes)
 - 메시지: chore: 다크모드 비활성 — colorMode light 글로벌 (모듈 추가 시 자동 발효)
+
+### 14:13 — `malgn-helper` → Cloudflare Pages
+- 커밋: `8ed0965` (신규 커밋: yes)
+- 메시지: chore: 다크모드 비활성 — colorMode light 글로벌 (모듈 추가 시 자동 발효)
+
+### 14:22 — `malgn-helper-pms` → Cloudflare Pages
+- 커밋: `acb8940` (신규 커밋: yes)
+- 메시지: fix(ui): localStorage 옛 dark 값 무시 — plugin으로 light 강제
