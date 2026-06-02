@@ -87,7 +87,7 @@ tb_project   tb_post
 | `latency_ms` | INT NULL | |
 | `eval_json` | LONGTEXT NOT NULL | `QaEval` 객체 전체 |
 | `overall_score` | DECIMAL(3,2) NULL | 정렬·필터용 (예: 4.20) |
-| `overall_verdict` | VARCHAR(20) NULL | 표시용 (예: "양호") |
+| `overall_verdict` | VARCHAR(100) NULL | 표시용 한 줄 평 (예: "알림톡 기능 추가 절차를 명확하게 안내함") — 2026-05-29 VARCHAR(20)→100 마이그레이션 |
 | `status` | TINYINT NOT NULL DEFAULT 1 | |
 | `created_at` | DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP | |
 
@@ -192,7 +192,7 @@ CREATE TABLE IF NOT EXISTS hp_qa_eval (
   latency_ms        INT NULL,
   eval_json         LONGTEXT NOT NULL,
   overall_score     DECIMAL(3,2) NULL,
-  overall_verdict   VARCHAR(20) NULL,
+  overall_verdict   VARCHAR(100) NULL,
   status            TINYINT NOT NULL DEFAULT 1,
   created_at        DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
