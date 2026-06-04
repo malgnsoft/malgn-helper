@@ -14,3 +14,7 @@
 ### 16:49 — `malgn-helper-pms` → Cloudflare Pages
 - 커밋: `2c9aca3` (신규 커밋: yes)
 - 메시지: feat(QaEvalCard): 모달이 클릭 즉시 열리고 안에서 loading→결과/에러 상태 전환 (프로젝트 분석과 동일 UX)
+
+### 17:06 — `malgn-helper-pms` → Cloudflare Pages
+- 커밋: `7dad92b` (신규 커밋: yes)
+- 메시지: fix(projects): isEmbedded는 ?embed=1만 — modal=open과 분리 + 새 청크 hash로 캐시 갱신
