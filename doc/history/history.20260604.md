@@ -22,3 +22,11 @@
 ### 17:22 — `malgn-helper-pms` → Cloudflare Pages
 - 커밋: `9c14a01` (신규 커밋: yes)
 - 메시지: refactor(posts/eval): 인-모달 loading/error 패턴으로 통일 (적용 URL 변경 없음)
+
+### 17:32 — `malgn-helper-api` → Cloudflare Workers
+- 커밋: `3dd0abf` (신규 커밋: yes)
+- 메시지: fix(vision): Vision 이미지 URL 변환에 ../data/ ./data/ data/ 등 상대경로 모두 절대화
+
+### 17:32 — `malgn-helper-pms` → Cloudflare Pages
+- 커밋: `8d51e8b` (신규 커밋: yes)
+- 메시지: fix(fixPmsHtml): ../data/ ./data/ 등 상대경로 자산도 PMS 도메인으로 절대화
