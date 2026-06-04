@@ -18,3 +18,7 @@
 ### 17:06 — `malgn-helper-pms` → Cloudflare Pages
 - 커밋: `7dad92b` (신규 커밋: yes)
 - 메시지: fix(projects): isEmbedded는 ?embed=1만 — modal=open과 분리 + 새 청크 hash로 캐시 갱신
+
+### 17:22 — `malgn-helper-pms` → Cloudflare Pages
+- 커밋: `9c14a01` (신규 커밋: yes)
+- 메시지: refactor(posts/eval): 인-모달 loading/error 패턴으로 통일 (적용 URL 변경 없음)
