@@ -42,3 +42,7 @@
 ### 11:47 — `malgn-helper-pms` → Cloudflare Pages
 - 커밋: `ecd7955` (신규 커밋: yes)
 - 메시지: chore(QaEvalCard): 추천 답변 가독성 — 문단 간격(my-3) + 줄간격(1.8) + 폰트 13px 적용
+
+### 12:01 — `malgn-helper-api` → Cloudflare Workers
+- 커밋: `b3ce7e1` (신규 커밋: yes)
+- 메시지: feat(image-asset): hp_image_asset 신설 + Vision으로 PMS 자산 이미지 자동 캡션·설명 추출·저장
