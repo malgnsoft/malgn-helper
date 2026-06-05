@@ -10,3 +10,7 @@
 ### 11:16 — `malgn-helper-pms` → Cloudflare Pages
 - 커밋: `a3d0f43` (신규 커밋: yes)
 - 메시지: fix(projects): modal=open도 임베드 시그널에 다시 포함 — 모달 진입 시 게시글 목록 버튼 숨김
+
+### 11:17 — `malgn-helper-pms` → Cloudflare Pages
+- 커밋: `9205573` (신규 커밋: yes)
+- 메시지: chore(ui): 빈 상태 카드 문구 정리 — tb_post 코드 라벨·1.5초 시뮬레이션 안내 제거
