@@ -30,3 +30,7 @@
 ### 11:39 — `malgn-helper-pms` → Cloudflare Pages
 - 커밋: `a47445a` (신규 커밋: yes)
 - 메시지: fix(QaEvalCard): PersonBlock에서 UTooltip 제거 → 이름이 안 보이던 이슈 fix (title 속성으로 툴팁 대체)
+
+### 11:40 — `malgn-helper-pms` → Cloudflare Pages
+- 커밋: `0446352` (신규 커밋: yes)
+- 메시지: chore(ui): MetaTile value 폰트 18px→14px — 한 줄 일시 표시 시 줄바꿈 방지
