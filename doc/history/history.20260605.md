@@ -14,3 +14,7 @@
 ### 11:17 — `malgn-helper-pms` → Cloudflare Pages
 - 커밋: `9205573` (신규 커밋: yes)
 - 메시지: chore(ui): 빈 상태 카드 문구 정리 — tb_post 코드 라벨·1.5초 시뮬레이션 안내 제거
+
+### 11:19 — `malgn-helper-pms` → Cloudflare Pages
+- 커밋: `20c17f3` (신규 커밋: yes)
+- 메시지: chore(ui): 빈 상태 카드에 생성 소요 시간 안내 복원 (약 30초~1분)
