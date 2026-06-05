@@ -22,3 +22,7 @@
 ### 11:34 — `malgn-helper-pms` → Cloudflare Pages
 - 커밋: `795bdc3` (신규 커밋: yes)
 - 메시지: feat(QaEvalCard): 문의·응답 일시를 yyyy.MM.dd HH:mm:ss 형식으로 표시
+
+### 11:37 — `malgn-helper-pms` → Cloudflare Pages
+- 커밋: `11f92a0` (신규 커밋: yes)
+- 메시지: chore(QaEvalCard): 문의·응답 메타타일에 날짜+시간 한 줄로 합쳐 표시
