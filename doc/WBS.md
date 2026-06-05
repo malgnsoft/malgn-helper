@@ -7,22 +7,22 @@
 >
 > 각 Phase는 자체 착수→이행 사이클을 가진다. Phase 2는 Phase 1의 인프라·자료·표준답변을 재사용하므로 분석·설계 비중이 축소된다.
 >
-> **마지막 현행화**: 2026-06-01 · 일별 변경은 [doc/history/](history/)에 누적 기록.
+> **마지막 현행화**: 2026-06-05 · 일별 변경은 [doc/history/](history/)에 누적 기록.
 
 ---
 
-## 진행률 스냅샷 (2026-06-01 기준)
+## 진행률 스냅샷 (2026-06-05 기준)
 
 | Phase / 단계 | 진행률 | 핵심 진행 사항 |
 | --- | --- | --- |
 | **Phase 1 · 착수/분석** | **95%** | 환경 검토·인프라 활성화·자료 인벤토리·요구사항 정의 모두 완료. 정식 요구사항 정의서만 잔여 |
-| **Phase 1 · 설계** | **80%** | hp_* 4테이블 ERD·DDL 완성, OpenAPI 3.1 명세, Q&A 5축+templates 6종 스펙 확정. 검색 인덱스 매핑 미진 |
-| **Phase 1 · 구현** | **65%** | API 22+ 엔드포인트, PMS 5페이지 + 폴리시 라운드, LLM 실연동(OpenAI via AI Gateway), Vision 이미지 분석. 자료 인덱싱·하이브리드 검색·관리자 UI 미진 |
-| **Phase 1 · 교육·연동** | **35%** | OpenAPI(Scalar) + 배포·이력·분류·MySQL 인덱스 가이드 5종. 정식 상담사 교육·기존 시스템 연동 미진 |
-| **Phase 1 · 테스트** | **10%** | UI 호환성·잘못된 캐시·CORS·Q&A 데이터 흐름 등 오류 처리 다수. 정식 단위·통합·UAT 미진 |
-| **Phase 1 · 이행** | **30%** | API + PMS 데모 운영 단계 (40+회 deploy.sh 이력, 일별 사용자 검증 진행). 관리자·사용자 챗봇 본 기능 미배포 |
+| **Phase 1 · 설계** | **85%** | hp_* **5테이블** ERD·DDL(+`hp_image_asset` 신설), OpenAPI 3.1 명세, Q&A 5축+templates 6종 스펙. 검색 인덱스 매핑 미진 |
+| **Phase 1 · 구현** | **72%** | API 24+ 엔드포인트 (announce-eval·migrate 포함), PMS 5페이지 + UX/LLM/Vision 폴리시 다회, LLM 안정화(gpt-4.1-mini via AI Gateway malgn-helper2), **이미지 자산 자동 캡션·저장**(hp_image_asset). 자료 인덱싱·하이브리드 검색·관리자 UI 미진 |
+| **Phase 1 · 교육·연동** | **35%** | OpenAPI(Scalar) + 배포·이력·분류·MySQL 인덱스·Cloudflare Access 가이드. 정식 상담사 교육·기존 시스템 연동 미진 |
+| **Phase 1 · 테스트** | **15%** | UI 호환성·캐시·CORS·HTML escape·Vision URL 절대화·region 차단 우회 등 다회차 오류 처리. 정식 단위·통합·UAT 미진 |
+| **Phase 1 · 이행** | **40%** | API + PMS 운영 단계 (60+회 deploy.sh 이력). 관리자·사용자 챗봇 본 기능 미배포 |
 
-## 누적 완료 자산 (2026-06-01)
+## 누적 완료 자산 (2026-06-05)
 
 ### 인프라
 
@@ -33,7 +33,9 @@
 - ✅ 일단위 작업 이력 [`doc/history/`](history/) 운영 — 일별 누적 (28일·29일 완료)
 - ✅ **Cloudflare Hyperdrive** `pms` (id `aea3...`) — PMS MySQL(5.6.51) 연결 + read cache (1분)
 - ✅ **Cloudflare R2** `malgn-helper-files` — WBS 영속화 + 원본 파일 저장소 준비
-- ✅ **Cloudflare AI Gateway** `malgn-helper` (Authenticated, compat endpoint) — OpenAI 호출 캐싱·로깅·rate 일원화
+- ✅ **Cloudflare AI Gateway** `malgn-helper2` (compat endpoint, Provider OpenAI 키 등록) — OpenAI 호출 캐싱·로깅·rate 일원화. (이전 `malgn-helper` 게이트웨이는 결제 정책 변경으로 폐기)
+- ✅ **Cloudflare Workers AI binding** — Workers AI catalog 모델 fallback 가능 (Llama 3.3 70B 등 region 우회용)
+- ✅ **Smart Placement** 활성 — backend 가까운 colo 자동 라우팅
 - ✅ **시크릿**: `OPENAI_API_KEY`, `AI_GATEWAY_TOKEN`
 - ⚪ Aurora MySQL (별도 — 현재는 PMS DB 직접 연결로 대체), OpenSearch (미설치)
 
@@ -44,26 +46,28 @@
 - ✅ 재사용 프롬프트 3종 ([prompts/](prompts/)): `cs-evaluation` · `customer-briefing` · `qa-evaluation`
 - ✅ 케이스 스터디·예시 3종 ([examples/](examples/))
 - ✅ **OpenAPI 3.1 명세** (수동 작성, 22개 엔드포인트) + Scalar API Reference UI (`/doc`)
-- ✅ 일별 이력: [history/history.20260528.md](history/history.20260528.md) · [history/history.20260529.md](history/history.20260529.md)
+- ✅ 일별 이력: 5/28·29 · 6/1·2·4·5 (운영 단계 진입 후 일별 누적)
 
 ### `malgn-helper-api` (Hono on Workers)
 
-- ✅ 22+ 엔드포인트: `/pms/projects` · `/pms/posts/:id` · `/pms/projects/:id/briefing(/generate)` · `/pms/posts/:id/eval(/generate)` · `/pms/evals/:id` · `/standard-answers` (CRUD) · `/pms/projects/:id/standard-answer-suggestions` · `/admin/cost` · `/admin/evals` · `/healthz` · `/doc`
+- ✅ **24+ 엔드포인트**: `/pms/projects` · `/pms/posts/:id` · `/pms/projects/:id/briefing(/generate)` · `/pms/posts/:id/eval(/generate)` · `/pms/posts/:id/announce-eval/generate` (직원 안내글 평가, 코드만) · `/pms/evals/:id` · `/standard-answers` (CRUD) · `/pms/projects/:id/standard-answer-suggestions` · `/admin/cost` · `/admin/evals` · `/admin/migrate/hp_image_asset` · `/healthz` · `/doc`
 - ✅ Hyperdrive 경유 PMS DB 연결 + 직원/고객/협력사 분류 + 비공개 댓글 본문 마스킹
-- ✅ LLM 실연동: OpenAI `gpt-4o-mini`(default) / `gpt-4o`(이미지 있을 때 자동 업그레이드) via AI Gateway
+- ✅ LLM 실연동: OpenAI `gpt-4.1-mini` via AI Gateway `malgn-helper2` (compat + BYOK)
 - ✅ `llm_input_hash` 기반 24h 캐시 + `hp_llm_log` 비용·지연·실패 감사
-- ✅ **GPT-4o Vision** — 원본 응답의 이미지 절대URL을 직접 첨부, LLM이 화면 인지 후 캡션 작성
+- ✅ **GPT-4.1-mini Vision** — 원본 응답의 이미지 절대URL을 직접 첨부, LLM이 화면 인지 후 캡션 작성. 상대경로(`/data/·../data/·./data/`) 모두 절대화
 - ✅ 표준답변 컨텍스트 보강 — 같은 프로젝트 최근 5건을 LLM에 전달 (톤·구조 참고)
 - ✅ Q&A 평가 prompt: 5축 + D축 templates 6종(짧은/긴/친절/비즈니스/FAQ/단계별), 4파트 구성 강제
+- ✅ **inquiry-only 모드**: 답변 없는 문의는 5축 평가 생략하고 추천 답변 6개만 D축 wrap (`QA_INQUIRY_ONLY_SYSTEM_PROMPT`)
+- ✅ **hp_image_asset 자동 캡션**: eval/generate에서 본문·응답 양쪽 `/data/*` 이미지 추출 → Vision 자동 분석·저장 (src_path UNIQUE 캐시)
 
 ### `malgn-helper-pms` (Nuxt 3 / Pages)
 
 - ✅ 브리핑 카드 컴포넌트 + 모달 워크플로 (실 API 연동, mock 제거)
-- ✅ Q&A 평가 카드 컴포넌트 + 모달 워크플로
-- ✅ 임베드 인터페이스 — `?modal=open` 쿼리, `postMessage` 닫기 신호
-- ✅ 표준답변 다중 템플릿 (6종) + "표준답변으로 저장" → API `POST /standard-answers`
-- ✅ 페이지: `/projects` (1,653건 검색·페이지네이션) · `/projects/[id]` (브리핑) · `/projects/[id]/posts` · `/posts/[id]` (상세+분석 모달) · `/admin/evals` (Q&A 목록, 행 클릭→모달) · `/admin/cost` (LLM 비용 대시보드) · `/wbs` (WBS Live Tracker)
-- ✅ UX 폴리시: 분석 모달은 valid 결과 도착 후 열기 / Q&A 본문 초기 접힘 / 빈 결과 시 "다시 시도" 모달 / 모달 안 삭제 → 서버+메모리 동기화
+- ✅ Q&A 평가 카드 컴포넌트 + **인-모달 상태 전환** (loading/error/result 같은 모달 안에서 분기)
+- ✅ 임베드 인터페이스 — `?embed=1`(내부 nav 숨김) / `?modal=open` (모달 자동 오픈), `postMessage` 닫기 신호. 두 시그널 모두 임베드로 인식
+- ✅ 표준답변 다중 템플릿 (6종) + **추천 문의 답변 별도 섹션 분리** + "표준답변으로 저장" → `POST /standard-answers`
+- ✅ 페이지 7종: `/projects` · `/projects/[id]` · `/projects/[id]/posts` · `/posts/[id]` · `/posts/[id]/eval` (임베드 전용) · `/admin/evals` · `/admin/cost` · `/wbs` (WBS Live Tracker)
+- ✅ UX 폴리시: 분석 모달은 valid 결과 도착 후 열기 / Q&A 본문 초기 접힘 / 빈 결과 "다시 시도" / 모달 안 삭제 → 서버+메모리 동기화 / PersonBlock UTooltip 제거 fix / 메타 일시 `yyyy.MM.dd HH:mm:ss` 한 줄 / 추천 답변 가독성(my-3·line-height 1.8) / **다크모드 비활성(CSS body bg)**
 
 ### `malgn-helper-admin` (Nuxt 3 / Pages)
 
@@ -77,9 +81,10 @@
 
 ### DB · 인덱스
 
-- ✅ **hp_* 4테이블** (`hp_briefing` · `hp_qa_eval` · `hp_standard_answer` · `hp_llm_log`) — PMS DB에 공존, DDL 적용 완료
+- ✅ **hp_* 5테이블** — `hp_briefing` · `hp_qa_eval` · `hp_standard_answer` · `hp_llm_log` · **`hp_image_asset`**(신규, Vision 자동 캡션·src_path UNIQUE prefix 191)
 - ✅ MySQL 부하 대책: `tb_post (project_id, status, reg_date)` + `tb_post_comment (post_id, status, reg_date)` 인덱스 추가 → 91초→244ms
 - ✅ `hp_qa_eval.overall_verdict` VARCHAR(20) → VARCHAR(100) 마이그레이션 (긴 평 저장)
+- ✅ `hp_image_asset` 마이그레이션 (일회용 `/admin/migrate/hp_image_asset?confirm=yes` 엔드포인트)
 
 ### 운영 정책
 
@@ -128,7 +133,7 @@
 | 2-1 | 전체 진행 일정 (WBS) | ✅ | 본 문서 + 진행률 스냅샷 + WBS Live Tracker (`/wbs`) | 일별 [history/](history/) 누적, `/wbs` 인라인 편집 + R2 자동 저장 |
 | 2-2 | 시스템 아키텍처 설계 | ✅ | CLAUDE.md 데이터 흐름, [TECH-STACK.md](TECH-STACK.md), 4 repo 책임 분리, [HP-SCHEMA.md](HP-SCHEMA.md) hp_* ERD, [CLOUDFLARE-ACCESS.md](CLOUDFLARE-ACCESS.md) 권한 모델 | 상세 시퀀스 다이어그램은 P2 진입 시 보강 |
 | 2-3 | 화면명세서 작성 | 🟢 | PMS 카드 2종 (브리핑·Q&A 평가) + 페이지 7종 (`/projects` `/posts` `/admin/evals` `/admin/cost` `/wbs` 등) 실구현 명세 | 관리자(`malgn-helper-admin`) 본격 화면 명세 미진 |
-| 2-4 | 데이터 설계 | ✅ | **hp_* 4테이블 ERD/DDL** ([HP-SCHEMA.md](HP-SCHEMA.md)) — `hp_briefing` · `hp_qa_eval` · `hp_standard_answer` · `hp_llm_log`. 인덱스·캐시 키·llm_input_hash 전략 포함 | OpenSearch 인덱스 매핑·R2 키 규칙은 Phase 1 후반·Phase 2 진입 시 |
+| 2-4 | 데이터 설계 | ✅ | **hp_* 5테이블 ERD/DDL** ([HP-SCHEMA.md](HP-SCHEMA.md)) — `hp_briefing` · `hp_qa_eval` · `hp_standard_answer` · `hp_llm_log` · **`hp_image_asset`**(신규, Vision 자동 캡션). 인덱스·캐시 키·llm_input_hash·src_path UNIQUE 전략 포함 | OpenSearch 인덱스 매핑·R2 키 규칙은 Phase 1 후반·Phase 2 진입 시 |
 | 2-5 | 디자인 시안 | 🟢 | 브리핑·Q&A 평가 카드(Notion-clean) + PMS 페이지 디자인(Tailwind v4 + Soft SaaS 톤) | 관리자·사용자 챗봇 화면 시안 미진 |
 | 2-6 | AI 프로토타입 서비스 구현 | ✅ | **실 LLM 호출 운영 중** — `/pms/projects/:id/briefing/generate` · `/pms/posts/:id/eval/generate` 24h 캐시 + Vision + 표준답변 컨텍스트 | 챗봇용 RAG(검색→인용→"모름" 가드)는 Phase 1 후반 신설 예정 |
 
@@ -138,7 +143,7 @@
 
 | ID | 작업 | 상태 | 산출물 | 비고 |
 | --- | --- | --- | --- | --- |
-| 3-1 | DB 구축 | 🟢 | **Hyperdrive `pms` 바인딩** + **hp_* 4테이블 적용** (`hp_briefing` · `hp_qa_eval` · `hp_standard_answer` · `hp_llm_log`). `overall_verdict` VARCHAR(100) 마이그레이션, MySQL 인덱스 추가 | Aurora 별도 인스턴스는 미진(현재는 PMS DB 공존 운영) |
+| 3-1 | DB 구축 | 🟢 | **Hyperdrive `pms` 바인딩** + **hp_* 5테이블 적용** (`hp_briefing` · `hp_qa_eval` · `hp_standard_answer` · `hp_llm_log` · **`hp_image_asset`**). `overall_verdict` VARCHAR(100) 마이그레이션, MySQL 인덱스 추가, `hp_image_asset` UNIQUE prefix(191) 적용 | Aurora 별도 인스턴스는 미진(현재는 PMS DB 공존 운영) |
 
 ### 디자인 / 퍼블리싱
 
@@ -152,8 +157,10 @@
 
 | ID | 작업 | 상태 | 산출물 | 비고 |
 | --- | --- | --- | --- | --- |
-| 3-5 | 워커 및 프레임워크 설치 | ✅ | Hono on Workers + 운영 (https://malgn-helper-api.malgnsoft.workers.dev) + Hyperdrive·R2·AI Gateway 바인딩 활성 | |
-| 3-6 | API 개발 | 🟢 | **22+ 엔드포인트** — `/pms/projects` 목록·상세·브리핑(generate)·게시글·Q&A 평가(generate)·평가 CRUD/삭제·`/standard-answers` CRUD·표준답변 추천·`/admin/cost`·`/admin/evals` · OpenAPI(`/doc`). 캐시·감사·Vision·문서 컨텍스트 모두 연동 | 자료 인덱싱·하이브리드 검색·챗봇 응답 파이프라인 미진 |
+| 3-5 | 워커 및 프레임워크 설치 | ✅ | Hono on Workers + 운영 (https://malgn-helper-api.malgnsoft.workers.dev) + Hyperdrive·R2·AI Gateway·Workers AI binding·Smart Placement 활성 | |
+| 3-6 | API 개발 | 🟢 | **24+ 엔드포인트** — `/pms/projects` 목록·상세·브리핑(generate)·게시글·Q&A 평가(generate, inquiry-only 자동 분기)·announce-eval(직원 안내글, 코드만)·평가 CRUD/삭제·`/standard-answers` CRUD·표준답변 추천·`/admin/cost`·`/admin/evals`·`/admin/migrate/hp_image_asset` · OpenAPI(`/doc`). 캐시·감사·Vision·표준답변 컨텍스트·**hp_image_asset 자동 캡션** 모두 연동 | 자료 인덱싱·하이브리드 검색·챗봇 응답 파이프라인 미진 |
+| 3-6-1 | LLM·게이트웨이 안정화 | ✅ | AI Gateway `malgn-helper2`(BYOK) + `openai/gpt-4.1-mini` + Authorization+cf-aig-authorization 헤더. 6가지 경로 검증 후 최종 안착 (region 차단·결제 정책 우회 트러블슈팅 기록) | |
+| 3-6-2 | 이미지 자산 자동 캡션 | ✅ | `analyzeAndStoreImage()` 함수 + `hp_image_asset` UNIQUE 캐시. eval/generate에서 본문(inquiry)·응답(reply) `/data/*` 이미지 추출 → Vision 자동 분석 → title·description 저장 | 검증: post 149694 9장 정확한 한국어 캡션 |
 
 ### Admin (`malgn-helper-admin`)
 
@@ -169,12 +176,15 @@
 | 3-9 | 브리핑 카드 컴포넌트 통합 | ✅ | `BriefingCard.vue` + types/data/composables + 모달 워크플로 | |
 | 3-10 | Q&A 평가 카드 컴포넌트 통합 | ✅ | `QaEvalCard.vue` + `QaAxisCard.vue` + `QaScoreSummary.vue` + 표준답변 6종 (짧은/긴/친절/비즈니스/FAQ/단계별) | |
 | 3-11 | 워크플로 페이지 | ✅ | `/projects/[id]` 빈 상태 → AI 생성 → 모달. 서버 히스토리 fetch (localStorage v1 자동 정리) | |
-| 3-12 | 임베드 인터페이스 | ✅ | `?modal=open` 쿼리, `window.open`·iframe 호환, `postMessage` 닫기 신호 | |
+| 3-12 | 임베드 인터페이스 | ✅ | `?embed=1`(내부 nav 숨김) / `?modal=open`(모달 자동 오픈, 임베드로 인식) · `window.open`·iframe 호환 · `postMessage` 닫기 신호 | |
 | 3-13 | 표준답변 다중 템플릿 + 저장 | ✅ | D축 templates 6개 LLM 자동 생성 → "표준답변으로 저장" → `POST /standard-answers` 영속화 | |
 | 3-14 | 실제 API 연동 | ✅ | 브리핑·Q&A 평가·표준답변·삭제·검색 모두 `malgn-helper-api` 호출로 전환. mock 제거 | |
 | 3-15 | Q&A 평가 카드 워크플로 페이지 | ✅ | `/admin/evals` 목록(정렬·필터·점수 색 분기) + 행 클릭 → `QaEvalCard` 모달. 빈 결과 행은 기본 숨김(`?includeEmpty=1`) + `/posts/:id` 상세 안 "AI 문의 답변 분석" 모달 | LLM 행만 모달 즉시 열기 폴리시 추가 검토 중 |
-| 3-16 | UX 폴리시 라운드 | ✅ | **분석 모달은 valid 결과 도착 후만 표시** (빈 0점 모달 노출 fix) · Q&A 본문 초기 접힘 · 빈 결과 → "다시 시도" 모달 · 모달 안 🗑 삭제 → 서버+메모리 동기화 · followups 빈 섹션 완전 제거 (schema·prompt·UI·clipboard 4곳) | |
-| 3-17 | LLM 품질 라운드 | ✅ | **GPT-4o Vision** 이미지 직접 분석 + 캡션 배치 · 표준답변 컨텍스트 (같은 프로젝트 최근 5건) · 4파트 답변 강제(인사/공감/핵심/보조/마무리) · maxTokens 6000→8000 | |
+| 3-16 | UX 폴리시 라운드 | ✅ | 분석 모달 valid 결과 후 표시 → **인-모달 상태 전환**(loading/error/result 같은 모달 안 분기) · Q&A 본문 초기 접힘 · "다시 시도" 모달 · 모달 안 삭제 → 서버+메모리 동기화 · followups 빈 섹션 제거 · PersonBlock UTooltip 제거 fix · 메타 일시 `yyyy.MM.dd HH:mm:ss` 한 줄 · 추천 답변 가독성(my-3·1.8) · 다크모드 비활성(CSS body bg) | |
+| 3-17 | LLM 품질 라운드 | ✅ | **GPT-4o Vision** 이미지 분석 + 캡션 · 표준답변 컨텍스트(최근 5건) · 4파트 답변 강제(인사/공감/핵심/보조/마무리) · maxTokens 8000 · 이미지 URL 절대화(`/data/·../data/·./data/`) · **추천 문의 답변 별도 섹션 분리**(D축 안에서 빼냄) | |
+| 3-18 | inquiry-only 모드 (답변 없는 문의) | ✅ | `QA_INQUIRY_ONLY_SYSTEM_PROMPT` 신설 — resp 없으면 5축 평가 생략하고 추천 답변 6개만 D축 wrap. 모호 시 commentary에 "추가 확인 필요 정보" 명시 | |
+| 3-19 | 안내글 평가 엔드포인트 | 🟢 | `/pms/posts/:id/announce-eval/generate` — 직원 작성 안내글 3축(톤/명확성/완전성) + 3개 추천(짧은/명료한/자세한). 캐싱·hp_qa_eval 저장·hp_llm_log 감사 재활용 | PMS UI 통합 미진 (코드만 들어가 있음) |
+| 3-20 | hp_image_asset 자동 캡션 | ✅ | 5번째 hp_* 테이블 + `analyzeAndStoreImage()` + eval/generate에서 본문·응답 양쪽 `/data/*` 이미지 추출 → Vision 자동 분석 → title·description 저장 (src_path UNIQUE 캐시) | 검증: post 149694 9장 한국어 캡션 정확 |
 
 ## P1-4. 교육 및 연동 (20%)
 
@@ -191,14 +201,14 @@
 | 5-1 | 베타 오픈(테스트 서버) | 🟢 | PMS·API 운영 단계 진입 — 사용자가 실 게시물(149694 등)로 일별 검증 중 | 정식 베타 사용자 범위·SLA 미진 |
 | 5-2 | 단위 테스트 | ⚪ | — | API·LLM·캐시 키 단위 테스트 |
 | 5-3 | 통합 테스트 | ⚪ | — | 자료 업로드→인덱싱→검색→추천→채택 E2E |
-| 5-4 | 오류 수정작업 | 🟢 | UI 호환성·CORS DELETE/PATCH·Hyperdrive stale read·members 쿼리 91s→244ms·잘못된 빈 캐시·인덱스 LOCK=NONE 미지원·HTML escape 처리 등 다회차 | 본 기능 결함 처리 진행 중 |
+| 5-4 | 오류 수정작업 | 🟢 | UI 호환성·CORS DELETE/PATCH·Hyperdrive stale read·members 쿼리 91s→244ms·잘못된 빈 캐시·LOCK=NONE 미지원·HTML escape·이미지 상대경로(`../data/`) 절대화·**OpenAI region 차단 우회**(BYOK→AI Gateway `malgn-helper2` Provider+Authorization)·utf8mb4 UNIQUE prefix 191 조정 등 다회차 | 본 기능 결함 처리 진행 중 |
 | 5-5 | 최종 테스트 | ⚪ | — | UAT + 답변 품질 평가 |
 
 ## P1-6. 이행 (5%)
 
 | ID | 작업 | 상태 | 산출물 | 비고 |
 | --- | --- | --- | --- | --- |
-| 6-1 | 배포 | 🟢 | 4개 repo 운영 (https://malgn-helper-api.malgnsoft.workers.dev / https://malgn-helper-{pms,admin,_}.pages.dev). API·PMS는 40+회 deploy.sh 이력으로 사실상 일일 배포 | 관리자·사용자 챗봇 본 기능 배포는 본격 진행 후 |
+| 6-1 | 배포 | 🟢 | 4개 repo 운영 (https://malgn-helper-api.malgnsoft.workers.dev / https://malgn-helper-{pms,admin,_}.pages.dev). API·PMS는 **60+회 deploy.sh** 이력으로 사실상 일일 배포 | 관리자·사용자 챗봇 본 기능 배포는 본격 진행 후 |
 | 6-2 | 완료 보고 및 공유 | ⚪ | — | Phase 2 입력자료 정리 포함 |
 
 ---
@@ -324,14 +334,15 @@ Phase별 작업과 별도로 진행되는 운영 도구. 모두 ✅ 완료.
 
 ## 다음 단계 우선순위 (제안)
 
-> M1(인프라 Ready) **통과**. 현재 M2(자료 수집 + 검색) 진입 직전.
+> M1(인프라 Ready) **통과**. 현재 M2(자료 수집 + 검색) 진입 직전 — **이미지 자산은 hp_image_asset로 자동 캡션·축적 시작됨**.
 
-1. **OpenSearch 도메인 셋업 + 인덱스 매핑** — k-NN(`text-embedding-3-small` 1536d) + BM25 하이브리드. 청크 단위 doc 구조 (parent_id·source·chunk_idx·embedding·body·title 등). Phase 1 후반 검색 백엔드.
-2. **`malgn-helper-admin` 자료 업로드 MVP** — R2 업로드 → 텍스트 추출(PDF·MD·HTML) → 청크 → 임베딩 → OpenSearch 색인. 동기 처리(MVP), Queue는 동영상 도입 시.
-3. **챗봇 응답 파이프라인 (`/chat`)** — 표준답변 매칭 우선 → 하이브리드 검색 → LLM 답변 + 출처 인용 + 신뢰도 가드("모름" 분기 → 에스컬레이션). PMS 측 Q&A 분석에서 검증된 prompt·캐시·감사 인프라 재사용.
-4. **`malgn-helper` 사용자 챗봇 UI** — NotebookLM 스타일 본문+출처 패널, 스트리밍 응답, 모바일 반응형.
-5. **관리자 추가 화면** — 표준답변 관리(승인 워크플로) · 상담 로그 검토 · 에스컬레이션 큐.
-6. **OpenSearch 인덱스 매핑 + R2 키 규칙 문서화** — P1-2-4 잔여 산출물.
-7. **(병행) PMS UX 잔여 폴리시** — `/admin/evals` LLM 행 모달 즉시 열기 · 정렬·필터 추가.
+1. **OpenSearch 도메인 셋업 + 인덱스 매핑** — k-NN(`text-embedding-3-small` 1536d) + BM25 하이브리드. 청크 단위 doc 구조 + **`hp_image_asset` description**도 인덱싱(이미지가 텍스트로 검색됨)
+2. **`malgn-helper-admin` 자료 업로드 MVP** — R2 업로드 → 텍스트 추출(PDF·MD·HTML) → 청크 → 임베딩 → OpenSearch 색인. 동기 처리(MVP), Queue는 동영상 도입 시
+3. **챗봇 응답 파이프라인 (`/chat`)** — 표준답변 매칭 우선 → 하이브리드 검색 → LLM 답변 + 출처 인용 + 신뢰도 가드("모름" 분기 → 에스컬레이션). PMS 측 Q&A 분석에서 검증된 prompt·캐시·감사 인프라 재사용. 답변에 관련 이미지 첨부 시 `hp_image_asset.title/description`을 alt·캡션으로 활용
+4. **`malgn-helper` 사용자 챗봇 UI** — NotebookLM 스타일 본문+출처 패널, 스트리밍 응답, 모바일 반응형
+5. **관리자 추가 화면** — 표준답변 관리(승인 워크플로) · 상담 로그 검토 · 에스컬레이션 큐 · **이미지 카탈로그**(`hp_image_asset` 검색·태그 큐레이션)
+6. **안내글 평가 PMS UI 통합** — `/pms/posts/:id/announce-eval/generate` 엔드포인트는 있고 UI만 미통합 (작성자 staff 분기 + 모달 재활용)
+7. **inquiry-only 응답 UI 분기** — D축만 있는 axes일 때 5축 평가 섹션 숨김 처리
+8. **(병행) PMS UX 잔여 폴리시** — `/admin/evals` LLM 행 모달 즉시 열기 · 정렬·필터 추가
 
-위 1~4가 완료되면 **Phase 1 본 기능 베타** 가능. 5는 Phase 1·2 공통 자산. 6은 설계 잔여.
+위 1~4가 완료되면 **Phase 1 본 기능 베타** 가능. 5는 Phase 1·2 공통 자산. 6~8은 단기 폴리시.
