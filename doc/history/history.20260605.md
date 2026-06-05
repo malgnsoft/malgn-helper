@@ -26,3 +26,7 @@
 ### 11:37 — `malgn-helper-pms` → Cloudflare Pages
 - 커밋: `11f92a0` (신규 커밋: yes)
 - 메시지: chore(QaEvalCard): 문의·응답 메타타일에 날짜+시간 한 줄로 합쳐 표시
+
+### 11:39 — `malgn-helper-pms` → Cloudflare Pages
+- 커밋: `a47445a` (신규 커밋: yes)
+- 메시지: fix(QaEvalCard): PersonBlock에서 UTooltip 제거 → 이름이 안 보이던 이슈 fix (title 속성으로 툴팁 대체)
