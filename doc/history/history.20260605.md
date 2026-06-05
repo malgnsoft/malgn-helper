@@ -18,3 +18,7 @@
 ### 11:19 — `malgn-helper-pms` → Cloudflare Pages
 - 커밋: `20c17f3` (신규 커밋: yes)
 - 메시지: chore(ui): 빈 상태 카드에 생성 소요 시간 안내 복원 (약 30초~1분)
+
+### 11:34 — `malgn-helper-pms` → Cloudflare Pages
+- 커밋: `795bdc3` (신규 커밋: yes)
+- 메시지: feat(QaEvalCard): 문의·응답 일시를 yyyy.MM.dd HH:mm:ss 형식으로 표시
