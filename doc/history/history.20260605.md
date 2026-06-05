@@ -34,3 +34,7 @@
 ### 11:40 — `malgn-helper-pms` → Cloudflare Pages
 - 커밋: `0446352` (신규 커밋: yes)
 - 메시지: chore(ui): MetaTile value 폰트 18px→14px — 한 줄 일시 표시 시 줄바꿈 방지
+
+### 11:44 — `malgn-helper-pms` → Cloudflare Pages
+- 커밋: `b17be67` (신규 커밋: yes)
+- 메시지: chore(QaEvalCard): PersonBlock의 이름·뱃지·이메일을 한 줄로 표시 (좁으면 wrap)
