@@ -1,0 +1,16 @@
+# 작업 이력 — 2026-06-08
+
+
+## 배포
+
+### 16:17 — `malgn-helper-admin` → Cloudflare Pages
+- 커밋: `b3cfcad` (신규 커밋: yes)
+- 메시지: feat(admin): 사이드바 메뉴 구조 + 레이아웃 + 17 페이지 stub (handoff_noti 디자인 톤 적용)
+
+- Nuxt UI v3 + Tailwind v4 + Lucide + DM Sans/Pretendard 도입
+- composables/use-admin-menu.ts: 5 그룹 × 17 메뉴 + 권한·배지 정의
+- components/admin/SidebarMenu.vue: 256px LNB (브랜드·검색·그룹 접기·뱃지·사용자칩)
+- components/admin/TopBar.vue: 64px sticky (breadcrumb·검색·환경 토글·알림·로그아웃)
+- layouts/default.vue + app.vue 골격
+- pages/index.vue: 홈 KPI 4종 + 최근 활동 mockup
+- pages/{16개} stub: AdminPagePlaceholder 컴포넌트로 통일
