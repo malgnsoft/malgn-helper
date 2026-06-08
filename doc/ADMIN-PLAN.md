@@ -230,7 +230,7 @@ malgn-helper-admin.pages.dev
 | `lms-general` | 범용 LMS | 일반 학습관리 (베이스 라인) |
 | `lms-refund` | 환급 LMS | 고용보험 환급 과정 — 환급법령·증빙·이수율 룰 |
 | `lms-public` | 공공 LMS | 공공기관 — 입찰·관급·법정 의무교육·접근성(WCAG) |
-| `lms-private` | 민간 LMS | 기업·민간 — 사내교육·KPI·요금제 자유도 |
+| `lms-security` | 민간보안 LMS | 정보보호 의무교육(개인정보보호법·정보통신망법) · ISMS-P 컴플라이언스 · 보안등급별 컨텐츠 분리 · 접근 로그·이수 증명 |
 | `lms-hybrid` | 혼합 LMS | 환급+민간 등 복합 — 두 도메인 룰 동시 적용 |
 | `lms-global` | 글로벌 LMS | 다국어·다지역 — i18n·결제·세금·시간대·법령 |
 | ... | (운영자 추가) | LMS 외 솔루션이 도입되면 추가 |
@@ -668,7 +668,7 @@ function requireRole(...allowed: Role[]) {
 | **동영상 자료는 URL 등록만**, Whisper 자막은 필요할 때 수동 트리거 | 2026-06-08 | 사용자 합의 |
 | **자료 보존 무기한** (특별한 일 없는 한) | 2026-06-08 | 사용자 합의 (자산 가치 우선) |
 | **표준답변 분류 = scope(`common`/`service`) + topic + service_tag + tags** | 2026-06-08 | 사용자 합의 (도메인·SEO·일반 IT는 공통, 기능·법령은 서비스별) |
-| **service_tag 기본 카탈로그 = LMS 패밀리 6종** (`lms-general`/`-refund`/`-public`/`-private`/`-hybrid`/`-global`) | 2026-06-08 | 사용자 합의 — 같은 LMS라도 도메인 룰 달라 표준답변 분리 필요 |
+| **service_tag 기본 카탈로그 = LMS 패밀리 6종** (`lms-general`/`-refund`/`-public`/`-security`/`-hybrid`/`-global`) | 2026-06-08 | 사용자 합의 — 같은 LMS라도 도메인 룰 달라 표준답변 분리 필요. `lms-security`는 정보보호 의무교육·ISMS-P 컴플라이언스 영역 |
 | **AI 초안 생성 = 챗봇 응답 로직(`POST /chat`) 재사용** | 2026-06-08 | 사용자 합의 (별도 prompt 안 만듦) |
 | **미커버 질문 = `/uncovered` 별도 전용 페이지** | 2026-06-08 | 사용자 합의 (작업 큐로 운영) |
 | **표준답변 작성 시 `hp_image_asset` 자동 추천·삽입** | 2026-06-08 | 사용자 합의 (이미지 캡션·설명 활용) |
