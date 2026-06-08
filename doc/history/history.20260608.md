@@ -14,3 +14,11 @@
 - layouts/default.vue + app.vue 골격
 - pages/index.vue: 홈 KPI 4종 + 최근 활동 mockup
 - pages/{16개} stub: AdminPagePlaceholder 컴포넌트로 통일
+
+### 16:42 — `malgn-helper-api` → Cloudflare Workers
+- 커밋: `cc7fc47` (신규 커밋: yes)
+- 메시지: feat(api): GET /image-assets + GET /admin/kpi — admin 1순위 화면 데이터 소스
+
+### 16:50 — `malgn-helper-admin` → Cloudflare Pages
+- 커밋: `69db1e8` (신규 커밋: yes)
+- 메시지: feat(admin 1순위): 홈 KPI 실데이터 + /cost + /qa-evals(iframe 모달) + /images 그리드
