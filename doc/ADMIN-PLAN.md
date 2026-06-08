@@ -1,6 +1,6 @@
 # 관리자(`malgn-helper-admin`) 기획서
 
-> 최종 현행화 — 2026-06-08 · CS 운영자 + 상담사 공용 · 챗봇 도입 전 필요한 전부 + 설정·계정 포함 MVP
+> 최종 현행화 — 2026-06-08 · **맑은소프트 직원 전용** (협력사 미고려) · 3 역할(관리자·개발자·상담사) · 챗봇 도입 전 필요한 전부 + 설정·계정 포함 MVP
 
 ---
 
@@ -21,13 +21,39 @@
 
 ## 2. 사용자·역할
 
-| 역할 | 주요 화면 | 권한 |
-| --- | --- | --- |
-| **운영자(Admin)** | 모든 화면 | 자료/표준답변/이미지 CRUD, AI 설정, 계정 관리, 통계 |
-| **상담사(Agent)** | 상담 로그·에스컬레이션·표준답변 조회·이미지 검색 | 자료 업로드는 불가, 표준답변은 제안/저장만(승인은 운영자) |
-| **(외부) 게스트** | 차단 | — |
+**전제** — 맑은소프트 직원 전용. 협력사·고객사는 admin 접근 불가. 식별은 `@malgnsoft.com` 이메일 + 메모리에 등록된 직원 룰(`tb_user.company='맑은소프트'`).
 
-권한 모델은 단순화: `role IN (admin, agent)`. 페이지·액션 단위 가드(`requireRole`).
+| 역할 | 약자 | 주요 책임 | 핵심 화면 |
+| --- | --- | --- | --- |
+| **관리자** | `admin` | 시스템 전반 책임, 계정·예산·정책 결정 | 모든 화면 |
+| **개발자(기술 지원)** | `developer` | 자료 인덱싱·AI 설정·캐싱·연동·이미지 큐레이션 | 자료·이미지·설정·로그·통계 |
+| **상담사** | `agent` | 표준답변 제안·에스컬레이션 처리·챗 로그 검토 | 표준답변·에스컬레이션·챗 로그·이미지 조회 |
+
+### 2-1. 권한 매트릭스
+
+| 액션 | 관리자 | 개발자 | 상담사 |
+| --- | :-: | :-: | :-: |
+| 자료 업로드·재인덱싱·삭제 | ✅ | ✅ | ❌ |
+| 자료 조회 | ✅ | ✅ | ✅ |
+| 표준답변 등록·편집 | ✅ | ✅ | ✅ (제안) |
+| 표준답변 **승인**·반려·삭제 | ✅ | ✅ | ❌ |
+| 이미지 카탈로그 편집·태깅·숨김 | ✅ | ✅ | ❌ (조회만) |
+| 챗 로그 열람 | ✅ | ✅ | ✅ |
+| 에스컬레이션 처리 | ✅ | ✅ | ✅ |
+| AI 설정·안전 가드·캐싱 | ✅ | ✅ | ❌ |
+| 외부 연동(Slack·이메일) | ✅ | ✅ | ❌ |
+| 계정 초대·역할 변경·비활성 | ✅ | ❌ | ❌ |
+| 감사 로그 열람 | ✅ | ✅ (자기 + 시스템) | ❌ (자기 것만) |
+
+> 개발자와 관리자는 운영 책임을 공유한다. 차이는 **계정 관리·예산 정책** 한정.
+
+### 2-2. 역할 결정 흐름
+
+- 가입 시 기본 `agent`
+- 관리자가 `developer` 또는 `admin`으로 승격
+- 초대 링크에는 역할 미리 지정 가능 (관리자만 발급)
+
+API 측 미들웨어: `requireRole('admin' | 'developer' | 'agent' | { any: [...] })`.
 
 ---
 
@@ -127,28 +153,39 @@ malgn-helper-admin.pages.dev
 
 ### 4-2. 자료 관리 — `/materials`
 
+**자산 종류 2가지**
+
+| 종류 | 설명 | 인덱싱 |
+| --- | --- | --- |
+| **파일 자산** (`file`) | PDF·MD·HTML·DOCX 직접 업로드 → R2 저장 | 텍스트 추출 → 청크 → 임베딩 → OpenSearch |
+| **URL 자산** (`url`) | 외부/사내 페이지·**동영상 URL** 등록만 | URL 페이지는 크롤링 후 텍스트 청크화. 동영상은 메타(제목·설명·태그)만 인덱싱하고, **필요시 Whisper로 자막 추출 트리거**(별도 액션) |
+
 **핵심 기능**
-- 드래그앤드롭 업로드 (PDF·MD·HTML·DOCX·동영상)
-- 자동 인덱싱 — R2 저장 → 텍스트 추출 → 청크 → 임베딩 → OpenSearch 색인
-- 인덱싱 상태 추적 (`pending` / `processing` / `indexed` / `failed`)
-- 재인덱싱(`force`) · 삭제(soft delete)
+- 파일 드래그앤드롭 또는 **URL 입력 폼** (제목·설명·태그)
+- 자동 인덱싱 — `pending` → `processing` → `indexed` / `failed`
+- 재인덱싱(`reindex`) · 삭제(soft delete)
+- 동영상 URL 자산은 **"자막 추출(Whisper)" 액션 버튼** — 누르면 비동기 Whisper 호출 후 텍스트 청크에 합산. 기본 비활성, 필요할 때만
 - 검색은 메타·본문 LIKE(MVP), 추후 OpenSearch full-text
 
-**목록 표 컬럼**: 제목 · 형식 · 크기 · 인덱싱 상태 · 청크 수 · 업로더 · 등록일 · 액션
-**상세 페이지**: 메타데이터, 원본 다운로드, 청크 미리보기(처음 5개), "재인덱싱"·"삭제"·"태그 편집" 액션
+**목록 표 컬럼**: 제목 · 종류(파일/URL) · 형식 · 인덱싱 상태 · 청크 수 · 업로더 · 등록일 · 액션
+**상세 페이지**: 메타데이터, 원본(파일은 다운로드/URL은 새 탭), 청크 미리보기(처음 5개), "재인덱싱"·"자막 추출"(동영상만)·"삭제"·"태그 편집" 액션
 
 **필요 테이블 (신규)**
-- `hp_material` — id, title, file_path(R2 key), mime, size, uploader, project_id(NULL = 전사), status(pending/processing/indexed/failed), chunk_count, indexed_at, created_at, status, tags(JSON)
-- `hp_material_chunk` — id, material_id, chunk_idx, body(TEXT), embedding(LONGBLOB or OpenSearch only), created_at
+- `hp_material` — id, title, **kind** (`file`/`url`/`video_url`), file_path(R2 key, file·video일 때만), source_url(url·video_url일 때만), mime, size, description, tags(JSON), uploader_id, project_id(NULL = 전사), indexing_status(pending/processing/indexed/failed), chunk_count, indexed_at, transcript_status(`none`/`pending`/`done`/`failed`, video_url 전용), status(1/-1), created_at
+- `hp_material_chunk` — id, material_id, chunk_idx, body(TEXT), token_count, embedding(LONGBLOB or OpenSearch only), source(`body`/`transcript`), created_at
 
 **필요 API (신규)**
-- `POST /materials` (multipart) — 업로드 + 비동기 인덱싱 시작
-- `GET /materials` — 목록·필터
-- `GET /materials/:id` — 상세
+- `POST /materials/file` (multipart) — 파일 업로드 + 인덱싱 시작
+- `POST /materials/url` (JSON) — URL/동영상 URL 등록
+- `GET /materials` — 목록·필터 (kind, indexing_status, search)
+- `GET /materials/:id` — 상세 (청크 포함)
 - `POST /materials/:id/reindex` — 재인덱싱
+- `POST /materials/:id/transcribe` — Whisper 자막 추출 (video_url만)
 - `DELETE /materials/:id` — soft delete
 
-**Phase 2 의존**: OpenSearch 셋업 후 indexing 파이프라인 활성
+**의존**
+- OpenSearch 셋업 (Phase 1 후반)
+- Whisper API 키 (선택, 동영상 자막 필요할 때)
 
 ---
 
@@ -342,32 +379,42 @@ OpenAPI(`/doc`)에 모두 추가.
 
 ### 6-1. 인증
 
-**1차**: Cloudflare Access SSO ([CLOUDFLARE-ACCESS.md](CLOUDFLARE-ACCESS.md) 가이드 적용)
-- admin 도메인 전체 보호
-- 이메일 도메인 화이트리스트 (`@malgnsoft.com` + 협력사 화이트리스트)
+**Cloudflare Access SSO** ([CLOUDFLARE-ACCESS.md](CLOUDFLARE-ACCESS.md) 가이드 적용)
+- admin 도메인 전체 보호 — 외부 접근 차단
+- 이메일 도메인 화이트리스트 = **`@malgnsoft.com`** 만 (협력사·고객사 차단)
 - 세션 토큰을 API가 검증 (`cf-access-jwt-assertion` 헤더)
-
-**2차 (후속)**: 자체 비밀번호 + JWT로 전환 (외부 운영자 초대 시)
+- 외부 운영자 초대 케이스가 없으므로 자체 비밀번호 로직 불필요
 
 ### 6-2. 권한 가드
 
 API 측 미들웨어:
+
 ```ts
-function requireRole(role: 'admin' | 'agent' | 'any') {
+type Role = 'admin' | 'developer' | 'agent';
+
+function requireRole(...allowed: Role[]) {
   return async (c, next) => {
-    const user = c.get('user'); // CF Access JWT에서 추출
+    const user = c.get('user'); // CF Access JWT에서 추출 (email, role)
     if (!user) return c.json({ error: 'unauthorized' }, 401);
-    if (role !== 'any' && user.role !== role) return c.json({ error: 'forbidden' }, 403);
+    if (!user.email.endsWith('@malgnsoft.com')) return c.json({ error: 'forbidden' }, 403);
+    if (!allowed.includes(user.role)) return c.json({ error: 'forbidden' }, 403);
     await next();
   };
 }
 ```
 
-- 자료 업로드·삭제 → `admin`
-- 표준답변 등록 → `agent` 이상, 승인 → `admin`
-- 챗 로그 열람 → `any`
-- 설정 변경 → `admin`
-- 계정 관리 → `admin`
+라우트 별 적용 예:
+
+| 라우트 | 가드 |
+| --- | --- |
+| `POST /materials/*` · `DELETE /materials/:id` | `requireRole('admin', 'developer')` |
+| `GET /materials` · `GET /materials/:id` | `requireRole('admin', 'developer', 'agent')` |
+| `POST /standard-answers` | `requireRole('admin', 'developer', 'agent')` |
+| `PATCH /standard-answers/:id/approve` | `requireRole('admin', 'developer')` |
+| `PATCH /image-assets/:id` · `DELETE /image-assets/:id` | `requireRole('admin', 'developer')` |
+| `POST /settings/*` | `requireRole('admin', 'developer')` |
+| `POST /accounts/*` · `PATCH /accounts/:id/role` | `requireRole('admin')` |
+| `GET /audit-logs` | `requireRole('admin', 'developer')` |
 
 ---
 
@@ -436,20 +483,27 @@ function requireRole(role: 'admin' | 'agent' | 'any') {
 
 | 결정 | 일자 | 근거 |
 | --- | --- | --- |
-| 사용자 = 운영자 + 상담사 공용 (역할 분리) | 2026-06-08 | 사용자 합의 |
+| 사용자 = **맑은소프트 직원 전용** (협력사·고객사 차단) | 2026-06-08 | 사용자 합의 |
+| 역할 3개 — 관리자(`admin`) · 개발자(`developer`) · 상담사(`agent`) | 2026-06-08 | 사용자 합의 |
 | PMS `/admin/*` 페이지와 admin은 병행 | 2026-06-08 | 상담사 PMS 흐름 유지 |
 | MVP = 챗봇 도입 전 필요한 전부 + 설정 + 계정 | 2026-06-08 | 사용자 합의 |
-| 인증은 Cloudflare Access SSO 1차 | 2026-06-08 | 기존 가이드 재활용 |
+| 인증은 Cloudflare Access SSO (`@malgnsoft.com` 도메인 한정) | 2026-06-08 | 직원 전용 + 기존 가이드 |
+| **동영상 자료는 URL 등록만**, Whisper 자막은 필요할 때 수동 트리거 | 2026-06-08 | 사용자 합의 |
 | 다크모드 비활성 (CSS body bg 라이트 고정) | 2026-06-08 | PMS와 일관 |
+
+### 운영 정책 기본값 (추가 합의 없을 시 적용)
+
+| 항목 | 기본값 | 근거 |
+| --- | --- | --- |
+| **미커버 질문 알림 임계값** | 같은 표현 **주 3건** 이상 누적되면 자동 표준답변 후보로 큐에 등록 + Slack DM(개발자·관리자) | 빈도 낮은 한 번 질문은 노이즈, 3회는 패턴 |
+| **미커버 알림 채널** | Slack `#cs-helper-ops` 채널 (Webhook 등록 후) — 부재 시 admin 홈의 "후보 알림" 카드만 | 외부 의존 최소화 |
+| **상담사 답변 작성 시 AI 초안** | **에스컬레이션 처리 화면**에 "초안 생성" 버튼 (선택). 표준답변 등록 화면에는 없음(이미 LLM이 생성한 6개 변형이 PMS 측에 있음) | 에스컬레이션 = 진짜 새 답변, 표준답변 = 큐레이션 |
+| **데이터 보존 — 챗 로그** | 메시지 본문 90일 / 메타(세션·피드백·신뢰도) 1년 / 1년 후 익명화 후 통계 보관 | 개인정보 최소화 + 품질 평가용 보존 |
+| **데이터 보존 — 자료** | soft delete 후 90일 R2 hold, 그 후 영구 삭제. 청크는 즉시 OpenSearch에서 제거 | 실수 복구 + 비용 |
+| **데이터 보존 — 표준답변·이미지** | 무기한 soft delete (수동 영구 삭제만 가능) | 자산 가치 우선 |
 
 ---
 
-## 10. 열린 질문 (후속 합의 필요)
+## 10. 열린 질문 (확정 전)
 
-- 동영상 자료 인덱싱 — Cloudflare Stream 또는 Whisper? Queue·Indexer Worker 도입 시점은?
-- 상담사 답변 작성 시 "AI 초안 생성" 버튼 — 어느 화면에서? (에스컬레이션 처리 안 권장 vs 표준답변 등록 시)
-- 미커버 질문 자동 통계 — 빈도 임계값 N건 이상이면 표준답변 후보 알림? 알림 채널은?
-- 외부 운영자(협력사) 초대 — 어디까지 허용? 자료 업로드도 가능?
-- 데이터 보존 — 챗 로그 / 자료 / 표준답변의 retention 정책은?
-
-> 위 항목은 Week 1 진입 전·또는 진행 중에 합의.
+남아있는 결정 없음 — 모든 항목 §9 기본값으로 확정. 운영 중 조정 시 §9의 "기본값"을 갱신하고 history에 기록.
