@@ -221,16 +221,21 @@ malgn-helper-admin.pages.dev
 | service | `pricing` | 요금·계약 | 단가표·계약 조건 |
 | service | `integration` | 연동·API | 외부 API·웹훅 |
 
-**기본 service_tag 카탈로그** (`hp_service` 테이블, 운영자가 추가):
+**기본 service_tag 카탈로그** (`hp_service` 테이블, 운영자가 추가)
 
-| slug | 이름 | 비고 |
+맑은소프트 LMS 패밀리 — 같은 LMS라도 도메인 규정·법령·기능 옵션이 달라서 표준답변을 분리해야 함:
+
+| slug | 이름 | 도메인·특수성 |
 | --- | --- | --- |
-| `lms` | 맑은이러닝 | 학습관리 솔루션 |
-| `sms` | 비즈뿌리오 SMS | 메시지 |
-| `pms` | 맑은프로젝트게시판 | PMS |
-| `cms` | 맑은CMS | 컨텐츠 |
-| `bizppurio` | 비즈뿌리오 연동 | 외부 |
-| ... | (운영자 추가) | |
+| `lms-general` | 범용 LMS | 일반 학습관리 (베이스 라인) |
+| `lms-refund` | 환급 LMS | 고용보험 환급 과정 — 환급법령·증빙·이수율 룰 |
+| `lms-public` | 공공 LMS | 공공기관 — 입찰·관급·법정 의무교육·접근성(WCAG) |
+| `lms-private` | 민간 LMS | 기업·민간 — 사내교육·KPI·요금제 자유도 |
+| `lms-hybrid` | 혼합 LMS | 환급+민간 등 복합 — 두 도메인 룰 동시 적용 |
+| `lms-global` | 글로벌 LMS | 다국어·다지역 — i18n·결제·세금·시간대·법령 |
+| ... | (운영자 추가) | LMS 외 솔루션이 도입되면 추가 |
+
+> 분류 효과: 같은 `topic=legal` 문의여도 환급(고용보험법) vs 공공(전자정부법) vs 글로벌(GDPR)이 전혀 다른 답변. `service_tag` 일치를 우선 매칭하여 정답률 확보.
 
 **매칭 규칙 (챗봇 응답·표준답변 추천)**
 
@@ -248,10 +253,12 @@ malgn-helper-admin.pages.dev
 [🔍 검색]  [scope: common/service ▾]  [topic ▾]  [service ▾]  [상태 ▾]    [+ 새 표준답변]
 
 #   label              scope    topic        service     사용  업데이트       상태       
-84  알림톡 비용         service  pricing      sms         42회  06-07 14:21   ● 승인됨   
-83  비밀번호 변경       common   account      —           12회  06-06 09:10   ◯ 대기     
-82  도메인 SSL 갱신     common   domain       —           28회  06-05 11:00   ● 승인됨   
-81  LMS 수료증 출력     service  feature      lms          7회  06-04 17:45   ● 승인됨   
+84  환급 이수율 기준        service  legal        lms-refund    42회  06-07 14:21   ● 승인됨   
+83  비밀번호 변경           common   account      —             12회  06-06 09:10   ◯ 대기     
+82  도메인 SSL 갱신         common   domain       —             28회  06-05 11:00   ● 승인됨   
+81  공공기관 접근성 인증    service  legal        lms-public     5회  06-05 09:00   ● 승인됨   
+80  LMS 수료증 출력         service  feature      lms-general    7회  06-04 17:45   ● 승인됨   
+79  다국어 결제 통화        service  pricing      lms-global     3회  06-03 11:00   ◯ 대기     
 ```
 
 **상세·편집 — `/standard-answers/:id`**
@@ -661,6 +668,7 @@ function requireRole(...allowed: Role[]) {
 | **동영상 자료는 URL 등록만**, Whisper 자막은 필요할 때 수동 트리거 | 2026-06-08 | 사용자 합의 |
 | **자료 보존 무기한** (특별한 일 없는 한) | 2026-06-08 | 사용자 합의 (자산 가치 우선) |
 | **표준답변 분류 = scope(`common`/`service`) + topic + service_tag + tags** | 2026-06-08 | 사용자 합의 (도메인·SEO·일반 IT는 공통, 기능·법령은 서비스별) |
+| **service_tag 기본 카탈로그 = LMS 패밀리 6종** (`lms-general`/`-refund`/`-public`/`-private`/`-hybrid`/`-global`) | 2026-06-08 | 사용자 합의 — 같은 LMS라도 도메인 룰 달라 표준답변 분리 필요 |
 | **AI 초안 생성 = 챗봇 응답 로직(`POST /chat`) 재사용** | 2026-06-08 | 사용자 합의 (별도 prompt 안 만듦) |
 | **미커버 질문 = `/uncovered` 별도 전용 페이지** | 2026-06-08 | 사용자 합의 (작업 큐로 운영) |
 | **표준답변 작성 시 `hp_image_asset` 자동 추천·삽입** | 2026-06-08 | 사용자 합의 (이미지 캡션·설명 활용) |
