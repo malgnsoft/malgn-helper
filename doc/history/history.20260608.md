@@ -22,3 +22,11 @@
 ### 16:50 — `malgn-helper-admin` → Cloudflare Pages
 - 커밋: `69db1e8` (신규 커밋: yes)
 - 메시지: feat(admin 1순위): 홈 KPI 실데이터 + /cost + /qa-evals(iframe 모달) + /images 그리드
+
+### 17:37 — `malgn-helper-api` → Cloudflare Workers
+- 커밋: `cfe84a4` (신규 커밋: yes)
+- 메시지: feat(auth): /auth/login·logout·me + JWT(8h httpOnly cookie) — tb_user 통합 인증
+
+### 17:40 — `malgn-helper-admin` → Cloudflare Pages
+- 커밋: `6f412e5` (신규 커밋: yes)
+- 메시지: feat(auth): tb_user 통합 로그인 — /login + auth.global 미들웨어 + JWT httpOnly cookie 세션 (8h)
