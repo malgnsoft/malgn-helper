@@ -18,6 +18,7 @@ Valid repo-name:
   - malgn-helper-admin
   - malgn-helper-api
   - malgn-helper-pms
+  - malgn-helper-mng    # 프로젝트 관리 허브 (Pages)
 
 The script will run, in order:
   1. git add -A && git commit (skip if no changes)

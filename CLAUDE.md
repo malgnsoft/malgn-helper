@@ -5,12 +5,13 @@ NotebookLM 수준의 사내 솔루션 전문 고객상담 AI 챗봇.
 
 ## 프로젝트 구성
 
-이 워크스페이스는 역할별로 4개의 독립 디렉토리로 분리되어 있다.
+이 워크스페이스는 역할별로 5개의 독립 디렉토리로 분리되어 있다 (제품 4 + 관리 허브 1).
 
 - `malgn-helper/` — **사용자 프론트엔드** (고객이 챗봇과 대화하는 화면). Nuxt 3 / Cloudflare Pages.
 - `malgn-helper-admin/` — **관리자 프론트엔드** (자료 업로드, 표준 답변 관리, 상담 로그/에스컬레이션 검토).
 - `malgn-helper-api/` — **API 서버** (Hono on Cloudflare Workers). 검색·LLM·DB 접근을 모두 담당.
 - `malgn-helper-pms/` — **PMS 애드온** (맑은프로젝트게시판 PMS에 탑재되는 상담사 도우미). PMS 내부에서 동작하며 `malgn-helper-api`를 호출해 **고객 문의 답변 추천** + **고객 문의 분석/브리핑**을 PMS 상담사에게 제공.
+- `malgn-helper-mng/` — **프로젝트 관리 허브** (대시보드·현황판·WBS·문서·작업 이력). 제품 코드가 아닌 이 프로젝트의 운영·조망용. Nuxt 3 / Cloudflare Pages + D1.
 
 ## 핵심 요구사항
 
@@ -82,7 +83,7 @@ malgn-helper      malgn-helper-admin       malgn-helper-pms
 ./scripts/deploy.sh <repo-name> "<commit message>"
 ```
 
-- `<repo-name>`: `malgn-helper` | `malgn-helper-admin` | `malgn-helper-api` | `malgn-helper-pms`
+- `<repo-name>`: `malgn-helper` | `malgn-helper-admin` | `malgn-helper-api` | `malgn-helper-pms` | `malgn-helper-mng`
 - 스크립트가 자동 실행하는 4단계:
   1. `git add -A && git commit -m "<message>"` (변경 없으면 commit skip)
   2. `git push`
@@ -101,7 +102,7 @@ pnpm deploy
 
 ### 규칙
 
-- 변경된 repo만 배포. 4개 일괄 배포 금지.
+- 변경된 repo만 배포. 전체 일괄 배포 금지.
 - Secret 변경은 별도 — `wrangler secret put <KEY>` 후 deploy.
 - 배포 실패 시 history에 실패 사유 함께 기록.
 - 이력 파일은 누적 — 같은 날 추가 배포는 기존 파일에 항목만 추가.
