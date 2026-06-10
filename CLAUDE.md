@@ -88,7 +88,7 @@ malgn-helper      malgn-helper-admin       malgn-helper-pms
   1. `git add -A && git commit -m "<message>"` (변경 없으면 commit skip)
   2. `git push`
   3. 해당 repo에서 `pnpm deploy` — `wrangler.toml` 존재 여부로 Pages/Workers 자동 분기
-  4. `doc/history/history.{yyyyMMdd}.md`의 `## 배포` 섹션에 항목 append (파일 없으면 생성)
+  4. `docs/history/history.{yyyyMMdd}.md`의 `## 배포` 섹션에 항목 append (파일 없으면 생성)
 
 ### 수동 절차 (스크립트 미사용 시)
 
@@ -97,7 +97,7 @@ cd ~/Projects/<repo>
 git add . && git commit -m "<message>"
 git push
 pnpm deploy
-# doc/history/history.{yyyyMMdd}.md에 배포 항목 직접 추가
+# docs/history/history.{yyyyMMdd}.md에 배포 항목 직접 추가
 ```
 
 ### 규칙

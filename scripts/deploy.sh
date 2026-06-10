@@ -24,7 +24,7 @@ The script will run, in order:
   1. git add -A && git commit (skip if no changes)
   2. git push
   3. pnpm deploy (Workers/Pages auto-detected)
-  4. append entry to doc/history/history.YYYYMMDD.md
+  4. append entry to docs/history/history.YYYYMMDD.md
 EOF
   exit 1
 fi
@@ -35,7 +35,7 @@ REPO_DIR="$PROJECTS_ROOT/$REPO"
 DATE_KR="$(date +%Y-%m-%d)"
 DATE_FILE="$(date +%Y%m%d)"
 TIME_HM="$(date +%H:%M)"
-HISTORY_DIR="$WORKSPACE_ROOT/doc/history"
+HISTORY_DIR="$WORKSPACE_ROOT/docs/history"
 HISTORY_FILE="$HISTORY_DIR/history.${DATE_FILE}.md"
 
 if [[ ! -d "$REPO_DIR/.git" ]]; then

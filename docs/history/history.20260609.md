@@ -14,3 +14,9 @@ Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
 - 메시지: docs: 개발자 가이드(전체 통합본) 추가
 
 Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
+
+### 16:38 — `malgn-helper-mng` → Cloudflare Pages
+- 커밋: `2291e65` (신규 커밋: yes)
+- 메시지: docs: 개발자 가이드 보강 (RAG/검색 설계 전모 + 관리자단 권한·로드맵)
+
+Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>

@@ -1,7 +1,7 @@
 # 단일 Q&A 요약·평가 프롬프트
 
 > 게시판의 한 문의(post) + 답변(comment)에 대한 요약·5축 평가 보고서를 AI에게 생성시키기 위한 프롬프트.
-> 산출 예시: [`doc/examples/qa-94227-사용자매뉴얼.md`](../examples/qa-94227-사용자매뉴얼.md)
+> 산출 예시: [`docs/examples/qa-94227-사용자매뉴얼.md`](../examples/qa-94227-사용자매뉴얼.md)
 >
 > 비교 — 다른 양식 프롬프트:
 > - [`customer-briefing.md`](customer-briefing.md): 고객사(프로젝트) 단위 한 장 브리핑 카드
@@ -12,7 +12,7 @@
 1. 아래 **§ 프롬프트 본문**을 복사.
 2. 상단 `[입력]`의 `{{...}}` 자리에 값 채움 (`POST_ID`만 필수).
 3. AI(또는 DB 접근 가능한 에이전트)에게 전달.
-4. 산출물은 `doc/examples/qa-{{POST_ID}}-{슬러그}.md`로 저장 (예: `qa-94227-사용자매뉴얼.md`).
+4. 산출물은 `docs/examples/qa-{{POST_ID}}-{슬러그}.md`로 저장 (예: `qa-94227-사용자매뉴얼.md`).
 
 ---
 
@@ -219,7 +219,7 @@ WHERE f.status = 1
 - **본문 인용 시 HTML 정제**: `<[^>]+>` 제거 + `&nbsp;` → 공백 + 줄바꿈 보존.
 - **PII**: 메타에 이메일 표시 시 도메인만 노출 (`@nate.com`, `@malgnsoft.com`). 전체 이메일 노출 금지.
 - **표준답변 템플릿** (§4-D): 1~3 단락의 공개판 초안. 비공개 답변일수록 필수.
-- **저장 경로**: `doc/examples/qa-{{POST_ID}}-{한국어슬러그}.md`. 슬러그는 게시글 제목의 핵심 키워드 (예: "사용자매뉴얼", "회원탈퇴").
+- **저장 경로**: `docs/examples/qa-{{POST_ID}}-{한국어슬러그}.md`. 슬러그는 게시글 제목의 핵심 키워드 (예: "사용자매뉴얼", "회원탈퇴").
 
 ## [품질 체크리스트]
 
@@ -235,8 +235,8 @@ WHERE f.status = 1
 
 # § 참고
 
-- 예시 산출물: [`doc/examples/qa-94227-사용자매뉴얼.md`](../examples/qa-94227-사용자매뉴얼.md)
-- DB 정책·정제 룰: [`doc/LEGACY-DB-INVENTORY.md`](../LEGACY-DB-INVENTORY.md)
+- 예시 산출물: [`docs/examples/qa-94227-사용자매뉴얼.md`](../examples/qa-94227-사용자매뉴얼.md)
+- DB 정책·정제 룰: [`docs/LEGACY-DB-INVENTORY.md`](../LEGACY-DB-INVENTORY.md)
 - 다른 평가 프롬프트:
   - [`customer-briefing.md`](customer-briefing.md) — 1페이지 브리핑 카드 (프로젝트 단위)
   - [`cs-evaluation.md`](cs-evaluation.md) — 풀 평가 보고서 (프로젝트 단위)

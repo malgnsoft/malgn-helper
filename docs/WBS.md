@@ -7,7 +7,7 @@
 >
 > 각 Phase는 자체 착수→이행 사이클을 가진다. Phase 2는 Phase 1의 인프라·자료·표준답변을 재사용하므로 분석·설계 비중이 축소된다.
 >
-> **마지막 현행화**: 2026-06-05 · 일별 변경은 [doc/history/](history/)에 누적 기록.
+> **마지막 현행화**: 2026-06-05 · 일별 변경은 [docs/history/](history/)에 누적 기록.
 
 ---
 
@@ -30,7 +30,7 @@
 - ✅ Cloudflare 환경 — Pages 3 (helper·admin·pms) + Workers 1 (api) 모두 운영
 - ✅ wrangler 설정 (`wrangler.jsonc` / `wrangler.toml`) + account_id 명시
 - ✅ 일괄 배포 스크립트 [`scripts/deploy.sh`](../scripts/deploy.sh) — commit + push + deploy + 이력 자동 기록 (40+회 실행)
-- ✅ 일단위 작업 이력 [`doc/history/`](history/) 운영 — 일별 누적 (28일·29일 완료)
+- ✅ 일단위 작업 이력 [`docs/history/`](history/) 운영 — 일별 누적 (28일·29일 완료)
 - ✅ **Cloudflare Hyperdrive** `pms` (id `aea3...`) — PMS MySQL(5.6.51) 연결 + read cache (1분)
 - ✅ **Cloudflare R2** `malgn-helper-files` — WBS 영속화 + 원본 파일 저장소 준비
 - ✅ **Cloudflare AI Gateway** `malgn-helper2` (compat endpoint, Provider OpenAI 키 등록) — OpenAI 호출 캐싱·로깅·rate 일원화. (이전 `malgn-helper` 게이트웨이는 결제 정책 변경으로 폐기)
@@ -325,7 +325,7 @@ Phase별 작업과 별도로 진행되는 운영 도구. 모두 ✅ 완료.
 | 항목 | 산출물 | 위치 |
 | --- | --- | --- |
 | 일괄 배포 스크립트 | `commit + push + deploy + history append` 4단계 일괄 처리 | [scripts/deploy.sh](../scripts/deploy.sh) |
-| 일단위 작업 이력 | `history.yyyyMMdd.md` 누적 기록 (덮어쓰기 X) | [doc/history/](history/) |
+| 일단위 작업 이력 | `history.yyyyMMdd.md` 누적 기록 (덮어쓰기 X) | [docs/history/](history/) |
 | 다중 계정 Cloudflare | `account_id`를 wrangler 설정에 명시 — env 변수 불필요 | 각 repo의 `wrangler.jsonc` / `wrangler.toml` |
 | Pages 배포 표준 | Nuxt 3 `cloudflare-pages` preset, 출력 디렉토리 `dist/`, deploy 스크립트 `pnpm run deploy` | [CLAUDE.md](../CLAUDE.md) 배포 절차 |
 | 작성자 분류 규칙 | `@malgnsoft.com` = 직원 / 그 외 = 고객·협력사 (이름·패턴 추정 금지) | 메모리 + 모든 분석 문서에 적용 |
