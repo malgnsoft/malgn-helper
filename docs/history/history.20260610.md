@@ -23,3 +23,13 @@ Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
 - 보존: history 로그(append-only, 워크스페이스 deploy.sh가 쓰는 malgn-helper/doc), CLAUDE 미러, API /doc 라우트
 
 Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
+
+### 11:23 — `malgn-helper-mng` → Cloudflare Pages
+- 커밋: `be9165a` (신규 커밋: yes)
+- 메시지: docs: malgn-helper/doc → malgn-helper/docs 폴더 변경에 따른 cross-repo 참조 갱신
+
+- wbsData.ts·seed.sql·boardSeed.ts provenance 주석
+- CLAUDE.md·DEVELOPER-GUIDE.md·docs/CLAUDE.md(미러)의 워크스페이스 doc/history → docs/history
+- dated history 로그는 보존
+
+Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
